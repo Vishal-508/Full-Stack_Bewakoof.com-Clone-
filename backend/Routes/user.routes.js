@@ -3,6 +3,8 @@ const {UserModel}=require("../Models/User.model")
 const bcrypt=require("bcrypt");
 const jwt=require("jsonwebtoken");
 require("dotenv").config();
+
+
 const userController=Router();
 
 
@@ -37,6 +39,7 @@ userController.post("/login", async(req,res)=>{
 
       var user= await UserModel.findOne({email});
       const hash=user.password;
+  
       bcrypt.compare(password, hash, function(err, result) {
           if(err){
               res.send({message:"Something went wrong, please try again later"})

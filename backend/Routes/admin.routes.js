@@ -1,19 +1,23 @@
 const {Router}=require("express");
 const { UserModel } = require("../Models/User.model");
+const bcrypt=require("bcrypt");
+const jwt=require("jsonwebtoken");
+require("dotenv").config();
+
 
 const adminController=Router();
-
 adminController.post("/adminLogin", async(req,res)=>{
+    const {email,password}=req.body;
     try{
-
-        const {email,password}=req.body;
-        const user= await UserModel.find({email});
+        var user= await UserModel.findOne({email});
         const hash=user.password;
-        bcrypt.campare(password,hash,function(err,result){
+        
+        bcrypt.compare(password, hash, function(err, result) {
+            
             if(err){
                 res.send({message:"Something went wrong, please try again later"})
             }
-            if(result && user.role==="admin"){
+            if(result && user.role==="admin" ){
                 var token =jwt.sign({userId:user._id, email:email},process.env.SECRET_KEY);
                 res.send({message:"Login Successfull", token});
 
@@ -23,7 +27,7 @@ adminController.post("/adminLogin", async(req,res)=>{
         })
     }catch(err){
         console.log("err");
-        res.send("Invalid Credentials")
+        res.send("Invalid Credentials by catch")
     }
 
 })
