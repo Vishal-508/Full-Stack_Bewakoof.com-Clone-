@@ -1,3 +1,5 @@
+const { UserModel } = require("../Models/User.model");
+
 const auhorization=(permitted_Role)=>{
     return async (req,res,next)=>{
         const email=req.body.email;

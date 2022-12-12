@@ -12,14 +12,13 @@ const wishlistSchema=mongoose.Schema({
     offer_type:{type:String},
     product_sizes:{type:String},
     price:{type:Number},
-    // status:{type:Number},
-    // in_stock:{type:Number},
     gender:{type:String},
     quantity:{type:Number},
     offer:{type:String},
     member_discount:{type:String},
     product_discount:{type:String},
-    manufacturer_brand:{type:String}
+    manufacturer_brand:{type:String},
+    userId:{type:String}
 })
 
 

@@ -1,16 +1,20 @@
 const {Router}=require("express");
+const { authentication } = require("../middlewares/authentication");
+const { auhorization } = require("../middlewares/authorization");
 const { ProductModel } = require("../Models/Allproducts.model");
 
 const allproductController=Router();
 
 allproductController.get("/", async (req, res) => {
-    const products = await ProductModel.find({userId:req.body.userId});
+  const query=req.query;
+  const{limit=40,page=1}=req.query;
+    const products = await ProductModel.find(query).limit(limit).skip((page-1)*limit);
     console.log(products);
     res.send(products);
   });
 
 
-  allproductController.post("/create", async (req, res) => {
+  allproductController.post("/create",authentication,auhorization(["merchant","admin"]), async (req, res) => {
     const {
         _id,
         all_offer_price,
@@ -79,7 +83,7 @@ allproductController.get("/", async (req, res) => {
     }
   });
   
-  allproductController.delete("/delete/:productId", async (req, res) => {
+  allproductController.delete("/delete/:productId",authentication,auhorization(["merchant","admin"]), async (req, res) => {
     const { productId } = req.params;
     const deleteproduct = await ProductModel.findOneAndDelete({
       _id: productId,
@@ -92,7 +96,7 @@ allproductController.get("/", async (req, res) => {
     }
   });
   
-  allproductController.patch("/edit/:productId", async (req, res) => {
+  allproductController.patch("/edit/:productId",authentication,auhorization(["merchant","admin"]), async (req, res) => {
     const { productId } = req.params;
   
     const updateProduct = await ProductModel.findOneAndUpdate(
@@ -112,3 +116,60 @@ allproductController.get("/", async (req, res) => {
 
 
 module.exports={allproductController}
+
+
+// {
+//     "id": 509623,
+//     "all_offer_price": 1499,
+//     "description": "",
+//     "category": "Shirt",
+//     "color": [
+//     "purple"
+//     ],
+//     "display_image": "men-s-purple-casual-shirt-509623-1656179310-1.JPG",
+//     "flip_image": null,
+//     "product_sizes": [
+//     {
+//     "id": 1033761,
+//     "name": "M",
+//     "stock_status": true
+//     },
+//     {
+//     "id": 1033746,
+//     "name": "L",
+//     "stock_status": true
+//     },
+//     {
+//     "id": 1033750,
+//     "name": "XL",
+//     "stock_status": true
+//     },
+//     {
+//     "id": 1033755,
+//     "name": "2XL",
+//     "stock_status": true
+//     }
+//     ],
+//     "stock_status": true,
+//     "member_price": 469,
+//     "mrp": 1499,
+//     "name": "Men's Purple Casual Shirt",
+//     "offer_type": "price_cut",
+//     "price": 499,
+//     "url": "mens-purple-cazdjashdjkhsual-shirt",
+//     "status": 1,
+//     "in_stock": 1,
+//     "gender": "Men",
+//     "limited_edition": false,
+//     "category_info": {
+//     "gender": "Men",
+//     "subclass": "Shirt",
+//     "id": 44,
+//     "name": "Shirt",
+//     "url": ""
+//     },
+//     "offer": "14% OFF",
+//     "member_discount": "68% OFF",
+//     "product_discount": "66% OFF",
+//     "manufacturer_brand": "Riag"
+//     }

@@ -20,7 +20,8 @@ const cartSchema=mongoose.Schema({
     offer:{type:String},
     member_discount:{type:String},
     product_discount:{type:String},
-    manufacturer_brand:{type:String}
+    manufacturer_brand:{type:String},
+    userId:{type:String}
 })
 
 

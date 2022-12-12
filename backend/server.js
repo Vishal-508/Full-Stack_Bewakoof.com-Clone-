@@ -7,6 +7,12 @@ const {userController} =require("./Routes/user.routes");
 const {authentication}=require("./middlewares/authentication");
 const { json } = require("express");
 const { adminController } = require("./Routes/admin.routes");
+const { merchantController } = require("./Routes/merchantUser.routers");
+const { wishlistController } = require("./Routes/wishlist.routes");
+const { allproductController } = require("./Routes/allproducts.routes");
+const { cartController } = require("./Routes/addtocart.routes");
+const { addressController } = require("./Routes/address.routes");
+const { auhorization } = require("./middlewares/authorization");
 app.use(cors());
 app.use(express.json())
 
@@ -17,6 +23,11 @@ app.get("/",(req,res)=>{
 
 app.use("/user", userController);
 app.use("/admin",adminController);
+app.use("/merchantuser",merchantController);
+app.use("/wishlist",authentication,auhorization(["customer"]),wishlistController);
+app.use("/allproducts",allproductController);
+app.use("/addtocart",authentication,auhorization(["customer"]),cartController);
+app.use("/address",authentication,auhorization(["customer"]),addressController);
 
 
 

@@ -5,7 +5,8 @@ const merchantSchema=mongoose.Schema({
         name:{type:String, required:true},
         number:{type:Number, required:true},
         password:{type:String, required:true},
-        role:{type:String,default:"merchant"}
+        role:{type:String,default:"merchant"},
+        userId:{type:String}
 })
 
 
