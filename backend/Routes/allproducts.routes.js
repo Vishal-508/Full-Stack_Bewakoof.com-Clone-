@@ -7,11 +7,18 @@ const allproductController=Router();
 
 allproductController.get("/", async (req, res) => {
   const query=req.query;
+  console.log(query);
   const{limit=40,page=1}=req.query;
-    const products = await ProductModel.find(query).limit(limit).skip((page-1)*limit);
-    console.log(products);
+  const {sort="asc"}=req.query;
+  var x=1;
+  if(sort==="desc"){
+    x=-1;
+  }
+    const products = await ProductModel.find(query).limit(limit).skip((page-1)*limit).sort({price:`${x}`});
+  
     res.send(products);
   });
+ 
 
 
   allproductController.post("/create",authentication,auhorization(["merchant","admin"]), async (req, res) => {
