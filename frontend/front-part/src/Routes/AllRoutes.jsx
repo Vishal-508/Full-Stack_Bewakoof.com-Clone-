@@ -1,3 +1,4 @@
+
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import AdminDashboard from './AdminPages/AdminDashboard'
@@ -36,6 +37,12 @@ const AllRoutes = () => {
       <Route path='/merchant_dashboard' element={<MerchantDashboard/>} />
       <Route path='/merchant_login' element={<MerchantLogin/>} />
       <Route path='/merchant_signup' element={<MerchantSignUp/>} />
+
+
+      {/* not allowed any pages */}
+      <Route path='*' element={<img src='https://lapraim.com/assets/images/insights/404-error/404-error.jpg' alt='404 error' />} />
+      
+
     </Routes>
   )
 }
