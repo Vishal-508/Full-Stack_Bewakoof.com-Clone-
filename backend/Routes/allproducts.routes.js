@@ -9,16 +9,35 @@ allproductController.get("/", async (req, res) => {
   const query=req.query;
   console.log(query);
   const{limit=40,page=1}=req.query;
-  const {sort="asc"}=req.query;
-  var x=1;
-  if(sort==="desc"){
-    x=-1;
-  }
-    const products = await ProductModel.find(query).limit(limit).skip((page-1)*limit).sort({price:`${x}`});
+  const {sort}=req.query;
+  // var x=1;
+  // if(sort==="desc"){
+  //   x=-1;
+  // }
+  //   const products = await ProductModel.find(query).limit(limit).skip((page-1)*limit).sort({price:`${x}`});
   
+  //   res.send(products);
+
+  // var x=1;
+  // if(sort==="desc"){
+  //   x=-1;
+  // }else if(sort==="asc"){
+  //   x=1;
+  // }else{
+  //   x=""
+  // }
+  if(sort==="asc"){
+    const products = await ProductModel.find(query).limit(limit).skip((page-1)*limit).sort({price:`${1}`});
     res.send(products);
+  }else if(sort==="desc"){
+    const products = await ProductModel.find(query).limit(limit).skip((page-1)*limit).sort({price:`${-1}`});
+    res.send(products);
+  }else  {
+    const products = await ProductModel.find(query).limit(limit).skip((page-1)*limit);
+    res.send(products);
+  }
   });
- 
+
 
 
   allproductController.post("/create",authentication,auhorization(["merchant","admin"]), async (req, res) => {
