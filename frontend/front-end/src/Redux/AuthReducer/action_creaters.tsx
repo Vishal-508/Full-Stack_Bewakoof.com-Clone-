@@ -1,0 +1,24 @@
+import axios from "axios"
+import { Dispatch } from "redux"
+import { AuthActions } from "./action"
+import { Auth_Action_Type } from "./action_types"
+
+interface IloginProps{
+    email:string,
+    password:string
+}
+interface IsignupProps{
+    email:string,
+    password:string,
+    name:string,
+    number:number
+}
+export const userLogin = (payload:IloginProps)=>(dispatch:Dispatch<AuthActions>)=>{
+    dispatch({type:Auth_Action_Type.LOADING})
+    return axios.post("https://smiling-jade-fly.cyclic.app/user/login",payload).then((res)=> dispatch({type:Auth_Action_Type.USER_LOGIN_SUCCESS, payload:res.data })).catch((err)=>dispatch({type:Auth_Action_Type.FAILURE}))
+}
+
+export const usersignup = (payload:IsignupProps)=>(dispatch:Dispatch<AuthActions>)=>{
+    dispatch({type:Auth_Action_Type.LOADING})
+    return axios.post("https://smiling-jade-fly.cyclic.app/user/signup",payload).then((res)=> dispatch({type:Auth_Action_Type.USER_SIGNUP_SUCCESS })).catch((err)=>dispatch({type:Auth_Action_Type.FAILURE}))
+}
