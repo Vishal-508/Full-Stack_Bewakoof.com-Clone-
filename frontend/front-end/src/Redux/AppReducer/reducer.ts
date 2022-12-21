@@ -35,7 +35,7 @@ const reducer = (state:IstateProps=initialState,action:AppActions) => {
       }
     case App_ActionType.GET_PRODUCT_SUCCESS:
         return {
-            ...state, AllProductData:action.payload
+            ...state, AllProductData:action.payload, isloading:false, isError:false
         }
 
     default:

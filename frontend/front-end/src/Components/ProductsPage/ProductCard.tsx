@@ -59,8 +59,9 @@ const ProductCard = (props:IproductData) => {
                 </Flex>
                 <Flex>
                   <Text fontSize="11px" fontWeight="bold" p="3px 8px" bg="#F7F7F7">
-                    ₹{member_price}
+                    ₹{member_price} 
                     {/* {tribe_text} */}
+                    &nbsp; For TriBe Members
                   </Text>
                 </Flex>
               </Box>

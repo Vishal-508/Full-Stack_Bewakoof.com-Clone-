@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 
 // import {reducer as AuthReducer} from "./AppReducer/reducer";
 import {
@@ -11,20 +11,36 @@ import {
   Select,
   Flex,
   Stack,
+  Center,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionIcon,
+  AccordionPanel,
 } from "@chakra-ui/react";
-import { useDispatch, useSelector } from 'react-redux';
-import { IproductData } from '../../Redux/AppReducer/reducer';
-import ProductCard from '../../Components/ProductsPage/ProductCard';
+import { useDispatch, useSelector } from "react-redux";
+import { IproductData } from "../../Redux/AppReducer/reducer";
+import ProductCard from "../../Components/ProductsPage/ProductCard";
+import { relative } from "path";
 const ProductsPage = () => {
-  const AllProductData: IproductData[] = useSelector((state:any) => state.AppReducer.AllProductData);
+  const AllProductData: IproductData[] = useSelector(
+    (state: any) => state.AppReducer.AllProductData
+  );
+  const isLoading: boolean = useSelector(
+    (state: any) => state.AppReducer.isLoading
+  );
+  // https://images.bewakoof.com/web/bwkf-loading-anim-common.gif
   const [data, setData] = useState([]);
-  const dispatch =useDispatch;
-  const [sort,setSort]=useState("popular");
-console.log(AllProductData)
+  const dispatch = useDispatch;
+  const [sort, setSort] = useState("popular");
+  console.log(AllProductData);
 
+  // if(isLoading) {
+  //   return <Center w="100%" h="100%" > <Image   w="250px" src='https://images.bewakoof.com/web/bwkf-loading-anim-common.gif' /></Center>}
 
   return (
     <div>
+      {/* <Box  > */}
       <Box position="sticky" top="0">
         {/* <Navbar /> */}
       </Box>
@@ -68,7 +84,7 @@ console.log(AllProductData)
       </Box>
       <Box w="1170px" h="auto" m="auto" display="flex">
         <Box w="295.5px" h="auto">
-          <Flex color="#333333" direction="column" position="sticky" top="52px" >
+          <Flex color="#333333" direction="column" position="sticky" top="52px">
             <Box
               color="#2D2D2D80"
               fontSize="12px"
@@ -78,7 +94,139 @@ console.log(AllProductData)
             >
               FILTERS
             </Box>
-            <Stack spacing={3} w="100%">
+            <Accordion allowToggle mr="10px"  >
+              <AccordionItem  w="94%">
+                <h2>
+                  <AccordionButton  p="8px 0px 8px 0px" >
+                    <Box as="span" fontSize="14px" flex="1" textAlign="left">
+                      Category
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4}>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat.
+                </AccordionPanel>
+              </AccordionItem>
+
+              <AccordionItem w="94%">
+                <h2>
+                  <AccordionButton p="8px 0px 8px 0px">
+                    <Box as="span" fontSize="14px" flex="1" textAlign="left">
+                     Brand
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4}>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat.
+                </AccordionPanel>
+              </AccordionItem>
+              <AccordionItem w="94%">
+                <h2>
+                  <AccordionButton p="8px 0px 8px 0px">
+                    <Box as="span" fontSize="14px" flex="1" textAlign="left">
+                      Color
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4}>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat.
+                </AccordionPanel>
+              </AccordionItem>
+              <AccordionItem w="94%">
+                <h2>
+                  <AccordionButton p="8px 0px 8px 0px">
+                    <Box as="span" fontSize="14px" flex="1" textAlign="left">
+                      Fit
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4}>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat.
+                </AccordionPanel>
+              </AccordionItem>
+              <AccordionItem w="94%">
+                <h2>
+                  <AccordionButton p="8px 0px 8px 0px">
+                    <Box as="span" fontSize="14px" flex="1" textAlign="left">
+                      Sleeve
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4}>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat.
+                </AccordionPanel>
+              </AccordionItem>
+              <AccordionItem w="94%">
+                <h2>
+                  <AccordionButton p="8px 0px 8px 0px">
+                    <Box as="span" fontSize="14px" flex="1" textAlign="left">
+                      Discount
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4}>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat.
+                </AccordionPanel>
+              </AccordionItem>
+              <AccordionItem w="94%" >
+                <h2>
+                  <AccordionButton p="8px 0px 8px 0px">
+                    <Box as="span" fontSize="14px" flex="1" textAlign="left">
+                      Sort By
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4}>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat.
+                </AccordionPanel>
+              </AccordionItem>
+              <AccordionItem w="94%">
+                <h2>
+                  <AccordionButton p="8px 0px 8px 0px">
+                    <Box as="span" fontSize="14px" flex="1" textAlign="left">
+                     Sizes
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4}>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat.
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
+
+            {/* <Stack spacing={3} w="100%">
               <Select
                 variant="flushed"
                 color="#333333"
@@ -114,7 +262,7 @@ console.log(AllProductData)
                 color="#333333"
                 placeholder="Discount"
               ></Select>
-            </Stack>
+            </Stack> */}
           </Flex>
         </Box>
         <Box w="877.5px">
@@ -134,7 +282,8 @@ console.log(AllProductData)
               h="26px"
               fontSize="12px"
               variant="unstyled"
-              value={sort} onChange={(e) => setSort(e.target.value)}
+              value={sort}
+              onChange={(e) => setSort(e.target.value)}
             >
               <option value="popular">Popular</option>
               <option value="new">New</option>
@@ -149,13 +298,15 @@ console.log(AllProductData)
           </SimpleGrid>
         </Box>
       </Box>
+      {/* </Box> */}
     </div>
   );
-}
+};
 
-export default ProductsPage
+export default ProductsPage;
 
-{/* <Image
+{
+  /* <Image
                   transform="scale(1.0)"
                   src={
                     'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=800&q=80'
@@ -167,4 +318,5 @@ export default ProductsPage
                   _hover={{
                     transform: 'scale(1.05)',
                   }}
-                /> */}
+                /> */
+}

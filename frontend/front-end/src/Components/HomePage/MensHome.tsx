@@ -1,7 +1,78 @@
 import React from "react";
 import { Box, Image, SimpleGrid } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getAllProducts } from "../../Redux/AppReducer/action_creaters";
 const MensHome = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleClick = (category: string) => {
+    var payload = {
+      limit: 40,
+      category: category,
+      gender: "Men",
+      page: 1,
+      dispatch,
+    };
+
+    getAllProducts(payload);
+    navigate("/ProductsPage");
+  };
+  interface ICategoryProps{
+    image:string,
+    category:string
+  }
+  const categoryArr:ICategoryProps[]=[
+    {
+      image:"https://images.bewakoof.com/uploads/grid/app/category-box-new-printed-tees-1668772678.jpg",
+      category:"T-Shirt",
+  },
+  {
+    image:"https://images.bewakoof.com/uploads/grid/app/category-box-new-2-1670503952.jpg",
+    category:"Sweater",
+},
+{
+  image:"https://images.bewakoof.com/uploads/grid/app/category-box-new-7-1670503951.jpg",
+  category:"T-Shirt",
+},
+{
+  image:"https://images.bewakoof.com/uploads/grid/app/category-box-new-d-1670923576.jpg",
+  category:"Jacket",
+},
+{
+  image:"https://images.bewakoof.com/uploads/grid/app/category-box-new-1-1670503953.jpg",
+  category:"Sweatshirt",
+},
+{
+  image:"https://images.bewakoof.com/uploads/grid/app/category-box-new-pyjamas-1668772679.jpg",
+  category:"Pyjama",
+},
+{
+  image:"https://images.bewakoof.com/uploads/grid/app/category-box-new-shirts-1668772679.jpg",
+  category:"Shirt",
+},
+{
+  image:"https://images.bewakoof.com/uploads/grid/app/category-box-new-boxers-1668772675.jpg",
+  category:"Boxer",
+},
+{
+  image:"https://images.bewakoof.com/uploads/grid/app/category-box-new-jeans-1668772677.jpg",
+  category:"Jeans",
+},
+{
+  image:"https://images.bewakoof.com/uploads/grid/app/category-box-new-final-MEN-Vests-1657526332.jpg",
+  category:"Vest",
+},
+{
+  image:"https://images.bewakoof.com/uploads/grid/app/category-box-new-final-MEN-Shorts-1657526331.jpg",
+  category:"Shorts",
+},
+{
+  image:"https://images.bewakoof.com/uploads/grid/app/category-box-new-e-1670938024.jpg",
+  category:"Hoodies",
+},
+
+  ]
   return (
     <div>
       {/* topcarousel */}
@@ -131,103 +202,23 @@ const MensHome = () => {
         />
       </Box>
       <SimpleGrid columns={6} row={2}>
-        <Box m="3px">
-          <Link to="/men">
-            <Image
-              w="100%"
-              src="https://images.bewakoof.com/uploads/grid/app/category-box-new-final-men-printed-1657526330.jpg"
-            />
-          </Link>
+      {categoryArr.map((item) => (
+        <Box
+          m="3px"
+          transition=".3s"
+          objectFit="contain"
+          cursor="pointer"
+          _hover={{
+            boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
+            transform: 'scale(1.01)',
+          }}
+          onClick={() => handleClick(item.category)}
+        >
+          <Image w="100%" src={item.image} />
         </Box>
-        <Box m="3px">
-          <Link to="/men">
-            <Image
-              w="100%"
-              src="https://images.bewakoof.com/uploads/grid/app/category-box-new-final-MEN-PlainTees-1657526329.jpg"
-            />
-          </Link>
-        </Box>
-        <Box m="3px">
-          <Link to="/men">
-            <Image
-              w="100%"
-              src="https://images.bewakoof.com/uploads/grid/app/category-box-new-final-MEN-OversizedTees-1657526328.jpg"
-            />
-          </Link>
-        </Box>
-        <Box m="3px">
-          <Link to="/men">
-            <Image
-              w="100%"
-              src="https://images.bewakoof.com/uploads/grid/app/category-box-new-final-MEN-Kurtas-1657526328.jpg"
-            />
-          </Link>
-        </Box>
-        <Box m="3px">
-          <Link to="/men">
-            <Image
-              w="100%"
-              src="https://images.bewakoof.com/uploads/grid/app/category-box-new-final-MEN-Vests-1657526332.jpg"
-            />
-          </Link>
-        </Box>
-        <Box m="3px">
-          <Link to="/men">
-            <Image
-              w="100%"
-              src="https://images.bewakoof.com/uploads/grid/app/category-box-new-final-MEN-Shorts-1657526331.jpg"
-            />
-          </Link>
-        </Box>
-        <Box m="3px">
-          <Link to="/men">
-            <Image
-              w="100%"
-              src="https://images.bewakoof.com/uploads/grid/app/category-box-new-final-MEN-Shirts-1657526330.jpg"
-            />
-          </Link>
-        </Box>
-        <Box m="3px">
-          <Link to="/men">
-            <Image
-              w="100%"
-              src="https://images.bewakoof.com/uploads/grid/app/category-box-new-final-MEN-Joggers-1657526328.jpg"
-            />
-          </Link>
-        </Box>
-        <Box m="3px">
-          <Link to="/men">
-            <Image
-              w="100%"
-              src="https://images.bewakoof.com/uploads/grid/app/category-box-new-sweatshirts-m-1660748009.jpg"
-            />
-          </Link>
-        </Box>
-        <Box m="3px">
-          <Link to="/men">
-            <Image
-              w="100%"
-              src="https://images.bewakoof.com/uploads/grid/app/category-box-new-final-MEN-Boxers-1657526325.jpg"
-            />
-          </Link>
-        </Box>
-        <Box m="3px">
-          <Link to="/men">
-            <Image
-              w="100%"
-              src="https://images.bewakoof.com/uploads/grid/app/category-box-new-final-MEN-Covers-1657526326.jpg"
-            />
-          </Link>
-        </Box>
-        <Box m="3px">
-          <Link to="/men">
-            <Image
-              w="100%"
-              src="https://images.bewakoof.com/uploads/grid/app/category-box-new-final-MEN-Bags-1657526325.jpg"
-            />
-          </Link>
-        </Box>
-      </SimpleGrid>
+      ))}
+    </SimpleGrid>
+      
       <Box fontSize="20px" fontWeight="bold">
         DISCOUNT PE DISCOUNT
       </Box>
@@ -283,3 +274,114 @@ const MensHome = () => {
 };
 
 export default MensHome;
+{/* <SimpleGrid columns={6} row={2}>
+        {categoryArr.map((item)=>{
+          <Box m="3px" transition=".3s" objectFit={"contain"}  cursor="pointer" _hover={{boxShadow: "rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px",transform:"scale(1.01)"}} onClick={() => handleClick(item.category)}>
+         
+          <Image
+          //  _hover={{transform:"scale(1.01)"}} transition=".3s" objectFit={"cover"} 
+            w="100%"
+            src={item.image}
+          />
+       
+      </Box>
+        })} */}
+
+        {/* <Box m="3px" transition=".3s" objectFit={"contain"}  cursor="pointer" _hover={{boxShadow: "rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px",transform:"scale(1.01)"}} onClick={() => handleClick("T-Shirt")}>
+         
+            <Image
+            //  _hover={{transform:"scale(1.01)"}} transition=".3s" objectFit={"cover"} 
+              w="100%"
+              src="https://images.bewakoof.com/uploads/grid/app/category-box-new-final-men-printed-1657526330.jpg"
+            />
+         
+        </Box>
+        <Box m="3px" onClick={() => handleClick("")}>
+          
+            <Image
+              w="100%"
+              src="https://images.bewakoof.com/uploads/grid/app/category-box-new-final-MEN-PlainTees-1657526329.jpg"
+            />
+          
+        </Box>
+        <Box m="3px" onClick={() => handleClick("")}>
+         
+            <Image
+              w="100%"
+              src="https://images.bewakoof.com/uploads/grid/app/category-box-new-final-MEN-OversizedTees-1657526328.jpg"
+            />
+         
+        </Box>
+        <Box m="3px" onClick={() => handleClick("")}>
+          
+            <Image
+              w="100%"
+              src="https://images.bewakoof.com/uploads/grid/app/category-box-new-final-MEN-Kurtas-1657526328.jpg"
+            />
+        
+        </Box>
+        <Box m="3px" onClick={() => handleClick("")}>
+         
+            <Image
+              w="100%"
+              src="https://images.bewakoof.com/uploads/grid/app/category-box-new-final-MEN-Vests-1657526332.jpg"
+            />
+          
+        </Box>
+        <Box m="3px" onClick={() => handleClick("")}>
+        
+            <Image
+              w="100%"
+              src="https://images.bewakoof.com/uploads/grid/app/category-box-new-final-MEN-Shorts-1657526331.jpg"
+            />
+          
+        </Box>
+        <Box m="3px" onClick={() => handleClick("")}>
+         
+            <Image
+              w="100%"
+              src="https://images.bewakoof.com/uploads/grid/app/category-box-new-final-MEN-Shirts-1657526330.jpg"
+            />
+          
+        </Box>
+        <Box m="3px" onClick={() => handleClick("")}>
+          
+            <Image
+              w="100%"
+              src="https://images.bewakoof.com/uploads/grid/app/category-box-new-final-MEN-Joggers-1657526328.jpg"
+            />
+          
+        </Box>
+        <Box m="3px" onClick={() => handleClick("")}>
+         
+            <Image
+              w="100%"
+              src="https://images.bewakoof.com/uploads/grid/app/category-box-new-sweatshirts-m-1660748009.jpg"
+            />
+         
+        </Box>
+        <Box m="3px" onClick={() => handleClick("")}>
+      
+            <Image
+              w="100%"
+              src="https://images.bewakoof.com/uploads/grid/app/category-box-new-final-MEN-Boxers-1657526325.jpg"
+            />
+       
+        </Box>
+        <Box m="3px" onClick={() => handleClick("")}>
+         
+            <Image
+              w="100%"
+              src="https://images.bewakoof.com/uploads/grid/app/category-box-new-final-MEN-Covers-1657526326.jpg"
+            />
+         
+        </Box>
+        <Box m="3px" onClick={() => handleClick("")}>
+          
+            <Image
+              w="100%"
+              src="https://images.bewakoof.com/uploads/grid/app/category-box-new-2-1670503952.jpg"
+            />
+       
+        </Box> */}
+      {/* </SimpleGrid> */}

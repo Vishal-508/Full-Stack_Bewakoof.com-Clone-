@@ -1,7 +1,79 @@
 import React from 'react'
 import { Box, Image, SimpleGrid } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { getAllProducts } from '../../Redux/AppReducer/action_creaters';
 const WomenHome = () => {
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleClick = (category: string) => {
+    var payload = {
+      limit: 40,
+      category: category,
+      gender: "Women",
+      page: 1,
+      dispatch,
+    };
+
+    getAllProducts(payload);
+    navigate("/ProductsPage");
+  };
+  interface ICategoryProps{
+    image:string,
+    category:string
+  }
+  const categoryArr:ICategoryProps[]=[
+    {
+      image:"https://images.bewakoof.com/uploads/grid/app/category-box-new-boyfriend-tees-1668773241.jpg",
+      category:"T-Shirt",
+  },
+  {
+    image:"https://images.bewakoof.com/uploads/grid/app/category-box-new-5-1670504699.jpg",
+    category:"Sweater",
+},
+{
+  image:"https://images.bewakoof.com/uploads/grid/app/category-box-new-fullsleevetees-1668773243.jpg",
+  category:"Top",
+},
+{
+  image:"https://images.bewakoof.com/uploads/grid/app/category-box-new-6-1670504698.jpg",
+  category:"Jacket",
+},
+{
+  image:"https://images.bewakoof.com/uploads/grid/app/category-box-new-4-1670504697.jpg",
+  category:"Sweatshirt",
+},
+{
+  image:"https://images.bewakoof.com/uploads/grid/app/category-box-new-final-WOMEN-PJs-1657527660.jpg",
+  category:"Pyjama",
+},
+{
+  image:"https://images.bewakoof.com/uploads/grid/app/category-box-new-final-WOMEN-PrrintedTees-1657527661.jpg",
+  category:"Shirt",
+},
+{
+  image:"https://images.bewakoof.com/uploads/grid/app/category-box-new-final-WOMEN-Boxers-1657527655.jpg",
+  category:"Boxer",
+},
+{
+  image:"https://images.bewakoof.com/uploads/grid/app/category-box-new-final-WOMEN-Jeans-1657527659.jpg",
+  category:"Jeans",
+},
+{
+  image:"https://images.bewakoof.com/uploads/grid/app/category-box-new-final-WOMEN-Joggers-1657527659.jpg",
+  category:"Joggers",
+},
+{
+  image:"https://images.bewakoof.com/uploads/grid/app/category-box-new-final-WOMEN-Shorts-1657527662.jpg",
+  category:"Shorts",
+},
+{
+  image:"https://images.bewakoof.com/uploads/grid/app/category-box-new-final-WOMEN-Dresses-1657527657.jpg",
+  category:"Dress",
+},
+
+  ]
     return (
         <div>
           {/* topcarousel */}
@@ -131,6 +203,23 @@ const WomenHome = () => {
             />
           </Box>
           <SimpleGrid columns={6} row={2}>
+      {categoryArr.map((item) => (
+        <Box
+          m="3px"
+          transition=".3s"
+          objectFit="contain"
+          cursor="pointer"
+          _hover={{
+            boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
+            transform: 'scale(1.01)',
+          }}
+          onClick={() => handleClick(item.category)}
+        >
+          <Image w="100%" src={item.image} />
+        </Box>
+      ))}
+    </SimpleGrid>
+          {/* <SimpleGrid columns={6} row={2}>
             <Box m="3px">
               <Link to="/men">
                 <Image
@@ -227,7 +316,7 @@ const WomenHome = () => {
                 />
               </Link>
             </Box>
-          </SimpleGrid>
+          </SimpleGrid> */}
           <Box fontSize="20px" fontWeight="bold">
             DISCOUNT PE DISCOUNT
           </Box>

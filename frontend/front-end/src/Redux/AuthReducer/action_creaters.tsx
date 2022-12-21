@@ -5,7 +5,8 @@ import { Auth_Action_Type } from "./action_types"
 
 interface IloginProps{
     email:string,
-    password:string
+    password:string,
+    dispatch:Dispatch<AuthActions>
 }
 interface IsignupProps{
     email:string,
@@ -13,9 +14,23 @@ interface IsignupProps{
     name:string,
     number:number
 }
-export const userLogin = (payload:IloginProps)=>(dispatch:Dispatch<AuthActions>)=>{
-    dispatch({type:Auth_Action_Type.LOADING})
-    return axios.post("https://smiling-jade-fly.cyclic.app/user/login",payload).then((res)=> dispatch({type:Auth_Action_Type.USER_LOGIN_SUCCESS, payload:res.data })).catch((err)=>dispatch({type:Auth_Action_Type.FAILURE}))
+interface Ipost{
+    email:string,
+    password:string
+}
+// export const userLogin = (payload:IloginProps)=>(dispatch:Dispatch<AuthActions>)=>{
+//     dispatch({type:Auth_Action_Type.LOADING})
+//     return axios.post("https://smiling-jade-fly.cyclic.app/user/login",payload).then((res)=> dispatch({type:Auth_Action_Type.USER_LOGIN_SUCCESS, payload:res.data })).catch((err)=>dispatch({type:Auth_Action_Type.FAILURE}))
+// }
+export const userLogin=(payload:IloginProps)=>{
+    const {email,password,dispatch}=payload;
+    var post:Ipost={email:email,
+    password:password
+    }
+        dispatch({type:Auth_Action_Type.LOADING})
+        return axios.post("https://smiling-jade-fly.cyclic.app/user/login",post).then((res)=>dispatch({type:Auth_Action_Type.USER_LOGIN_SUCCESS, payload:res.data })).catch((err)=>dispatch({type:Auth_Action_Type.FAILURE}))
+        
+    
 }
 
 export const usersignup = (payload:IsignupProps)=>(dispatch:Dispatch<AuthActions>)=>{
