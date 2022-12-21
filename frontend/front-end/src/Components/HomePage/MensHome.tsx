@@ -3,6 +3,8 @@ import { Box, Image, SimpleGrid } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getAllProducts } from "../../Redux/AppReducer/action_creaters";
+import CarouselComp from "../CarouselComp";
+
 const MensHome = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -73,8 +75,22 @@ const MensHome = () => {
 },
 
   ]
+  interface IcarArr{
+    img:string
+  }
+  const carouselArr:IcarArr[]=[
+    {img:"https://images.bewakoof.com/uploads/grid/app/puffer-jkt-1x1-common-1671471274.jpg"},
+    {img:"https://images.bewakoof.com/uploads/grid/app/winter-looks-common-1670589179.jpg"},
+    {img:"https://images.bewakoof.com/uploads/grid/app/xmasParty-banner-1x1-xmas-common-1671613537.jpg"},
+    {img:"https://images.bewakoof.com/uploads/grid/app/ezgif-com-gif-maker-1671199690.gif"},
+    {img:"https://images.bewakoof.com/uploads/grid/app/1x1-oversized-men-refreshed-1661417095.jpg"},
+    {img:"https://images.bewakoof.com/uploads/grid/app/men-banner-1661534424.jpg"},
+
+
+  ]
   return (
     <div>
+      <CarouselComp  />
       {/* topcarousel */}
       {/* <div
         id="carouselExampleIndicators"
@@ -190,7 +206,7 @@ const MensHome = () => {
         <Image
           w="100%"
           p="20px"
-          src="https://images.bewakoof.com/uploads/grid/app/desktop-tod-strip-men-1654149139.jpg"
+          src="https://images.bewakoof.com/uploads/grid/app/Desktop-Strip-6-1669217199.jpg"
         />
       </Box>
       <br />

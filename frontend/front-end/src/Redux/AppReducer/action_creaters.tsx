@@ -20,6 +20,8 @@ export const getAllProducts=(payload:IsearchParamsProps)=>{
         
     
 }
+
+
 // dispatch({type:App_ActionType.FAILURE})
 // (dispatch:Dispatch<AppActions>)=>
 // `https://smiling-jade-fly.cyclic.app/allproducts?category=${category}&limit=${limit}&page=${page}&sort=${sort}&gender=${gender}`

@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+.carImage{
+  cursor: pointer;
+ 
+  
+
+}
+.carImage:hover{
+  /* border-radius: 20px; */
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  cursor: pointer;
+  margin: 5px;
+}
+.carImage:hover>img{
+  /* border-radius: 10px; */
+}

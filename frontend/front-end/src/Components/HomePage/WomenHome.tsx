@@ -3,6 +3,7 @@ import { Box, Image, SimpleGrid } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { getAllProducts } from '../../Redux/AppReducer/action_creaters';
+import CarouselComp2 from '../CarouselComp2';
 const WomenHome = () => {
 
   const navigate = useNavigate();
@@ -76,6 +77,7 @@ const WomenHome = () => {
   ]
     return (
         <div>
+          <CarouselComp2/>
           {/* topcarousel */}
           {/* <div
             id="carouselExampleIndicators"
@@ -191,7 +193,7 @@ const WomenHome = () => {
             <Image
               w="100%"
               p="20px"
-              src="https://images.bewakoof.com/uploads/grid/app/desktop-tod-strip-women-1654149139.jpg"
+              src="https://images.bewakoof.com/uploads/grid/app/Desktop-Strip-6-1669217199.jpg"
             />
           </Box>
           <br />
