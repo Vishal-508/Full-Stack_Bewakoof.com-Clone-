@@ -13,10 +13,14 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { userSignup } from "../../Redux/AuthReducer/action_creaters";
 // import Navbar from "../Components/Navbar";
 const UserSignUp = () => {
   
+
+
   var initstate={
     name:"",
     number:0,
@@ -32,6 +36,7 @@ interface Iinitstate{
 
   const [formData,setFormData]=useState<Iinitstate>(initstate)
   const navigate =useNavigate()
+  const dispatch=useDispatch();
   const handleForm:React.ChangeEventHandler<HTMLInputElement>=(e)=>{
     const {name,value}=e.target;
      setFormData({...formData,[name]:value})
@@ -39,15 +44,29 @@ interface Iinitstate{
   // console.log(formData)
   const handleSubmit:React.FormEventHandler<HTMLFormElement>=(e)=>{
     e.preventDefault()
-    fetch("http://localhost:3006/users",{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body: JSON.stringify(formData)
-    })
-    .then(res=>res.json())
-    navigate("/login")
+   const payload={
+    email:formData.email,
+    number:formData.number,
+    name:formData.name,
+    password:formData.password,
+    dispatch
+   }
+    userSignup(payload);
+    navigate("/UserLogin")
+
+
+
+
+
+    // fetch("http://localhost:3006/users",{
+    //   method:"POST",
+    //   headers:{
+    //     "Content-Type":"application/json"
+    //   },
+    //   body: JSON.stringify(formData)
+    // })
+    // .then(res=>res.json())
+    // navigate("/login")
   }
   
   // function handleSubmit(e){

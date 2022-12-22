@@ -4,6 +4,7 @@ import { Auth_Action_Type } from "./action_types"
 interface IloginData{
 message:string;
 token:string;
+name:string
 }
 
 // USER LOGIN

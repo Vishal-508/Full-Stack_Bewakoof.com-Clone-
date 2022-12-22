@@ -5,6 +5,7 @@ import AdminLogin from './AdminPages/AdminLogin'
 import MerchantDashboard from './MerchantPages/MerchantDashboard'
 import MerchantLogin from './MerchantPages/MerchantLogin'
 import MerchantSignUp from './MerchantPages/MerchantSignUp'
+import PrivateRoute from './PrivateRoute'
 import Cart from './UserPages/Cart'
 import Home from './UserPages/Home'
 import ProductsPage from './UserPages/ProductsPage'
@@ -22,19 +23,19 @@ const AllRoutes = () => {
     <Route path='/ProductsPage' element={<ProductsPage/>} />
     <Route path='/SingleProductPage/:id' element={<SingleProductPage/>} />
     {/* private routes below */}
-    <Route path='/CartPage' element={<Cart/>} />
-    <Route path='/WishListPage' element={<WishList/>} />
+    <Route path='/CartPage' element={<PrivateRoute><Cart/></PrivateRoute>} />
+    <Route path='/WishListPage' element={<PrivateRoute><WishList/></PrivateRoute>} />
 
     {/* ADMIN'S ROUTES */}
     <Route path='/AdminLogin' element={<AdminLogin/>} />
     {/* private routes below */}
-    <Route path='/AdminDashboard' element={<AdminDashboard/>} />
+    <Route path='/AdminDashboard' element={<PrivateRoute><AdminDashboard/></PrivateRoute>} />
 
     {/* MERCHANT'S ROUTES */}
     <Route path='/MerchantSignUp' element={<MerchantSignUp/>} />
     <Route path='/MerchantLogin' element={<MerchantLogin/>} />
     {/* private routes below */}
-    <Route path='/MerchantDashboard' element={<MerchantDashboard/>} />
+    <Route path='/MerchantDashboard' element={<PrivateRoute><MerchantDashboard/></PrivateRoute>} />
    </Routes>
   )
 }

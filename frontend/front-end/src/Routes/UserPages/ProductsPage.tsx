@@ -17,26 +17,56 @@ import {
   AccordionButton,
   AccordionIcon,
   AccordionPanel,
+  Input,
 } from "@chakra-ui/react";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { IproductData } from "../../Redux/AppReducer/reducer";
 import ProductCard from "../../Components/ProductsPage/ProductCard";
 import { relative } from "path";
+import { getAllProducts } from "../../Redux/AppReducer/action_creaters";
+import { useDispatch } from "react-redux";
+
 const ProductsPage = () => {
+  // const [searchParams,setSearch]
   const AllProductData: IproductData[] = useSelector(
     (state: any) => state.AppReducer.AllProductData
   );
   const isLoading: boolean = useSelector(
     (state: any) => state.AppReducer.isLoading
   );
-  // https://images.bewakoof.com/web/bwkf-loading-anim-common.gif
-  const [data, setData] = useState([]);
-  const dispatch = useDispatch;
-  const [sort, setSort] = useState("popular");
-  console.log(AllProductData);
+  const token:string = useSelector(
+    (state: any) => state.AuthReducer.token)
 
-  // if(isLoading) {
-  //   return <Center w="100%" h="100%" > <Image   w="250px" src='https://images.bewakoof.com/web/bwkf-loading-anim-common.gif' /></Center>}
+    // console.log(token)
+  // const [data, setData] = useState<IproductData[]>([]);
+  const dispatch =useDispatch();
+  const [sort, setSort] = useState("");
+ console.log(AllProductData)
+  // useEffect(()=>{
+  //   var payload = {
+  //     limit: 40,
+  //     category: "T-Shirt",
+  //     gender: "Men",
+  //     page: 1,
+  //     dispatch,
+  //   };
+   
+  //     getAllProducts(payload).then((res)=>console.log(AllProductData))
+    
+  //   // setData(AllProductData);
+  // },[])
+if(AllProductData.length===0){
+  var payload = {
+        limit: 40,
+        category: "T-Shirt",
+        gender: "Men",
+        page: 1,
+        dispatch,
+      };
+  getAllProducts(payload)
+}
+ 
+
 
   return (
     <div>
@@ -62,10 +92,7 @@ const ProductsPage = () => {
         </Breadcrumb>
       </Box>
       <Box>
-        {/* <Image
-          w="100%"
-          src={`https://images.bewakoof.com/uploads/category/desktop/${data.desktop_banner}`}
-        /> */}
+   
       </Box>
       <Box
         w="1170px"
@@ -105,10 +132,9 @@ const ProductsPage = () => {
                   </AccordionButton>
                 </h2>
                 <AccordionPanel pb={4}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
+                  <div>
+                    <input type="checkbox" value="" />
+                  </div>
                 </AccordionPanel>
               </AccordionItem>
 
@@ -285,14 +311,14 @@ const ProductsPage = () => {
               value={sort}
               onChange={(e) => setSort(e.target.value)}
             >
-              <option value="popular">Popular</option>
-              <option value="new">New</option>
-              <option value="high">price: High to Low</option>
-              <option value="low">price: Low to High</option>
+              <option value="">--Price--</option>
+              {/* <option value="new">New</option> */}
+              <option value="high"> High to Low</option>
+              <option value="low"> Low to High</option>
             </Select>
           </Box>
           <SimpleGrid columns={3} gap="10px">
-            {AllProductData?.map((item) => {
+            {AllProductData.length > 0 && AllProductData?.map((item) => {
               return <ProductCard key={item.id} {...item} />;
             })}
           </SimpleGrid>
@@ -320,3 +346,8 @@ export default ProductsPage;
                   }}
                 /> */
 }
+// https://images.bewakoof.com/web/bwkf-loading-anim-common.gif
+
+
+  // if(isLoading) {
+  //   return <Center w="100%" h="100%" > <Image   w="250px" src='https://images.bewakoof.com/web/bwkf-loading-anim-common.gif' /></Center>}

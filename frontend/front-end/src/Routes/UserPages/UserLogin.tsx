@@ -14,6 +14,8 @@ import {
 } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { userLogin } from '../../Redux/AuthReducer/action_creaters';
 // import Navbar from "../Components/Navbar";
 // import { AppContext } from "../Context/AppContext";
 // import { loginSuccess } from "../Context/Action";
@@ -30,24 +32,33 @@ const UserLogin = () => {
     password:""
   }
   const [loginData,setLoginData]=useState(initData)
-  const [data,setData]=useState([])
+  // const [data,setData]=useState([])
   // const {state,dispatch}=useContext(AppContext)
   const navigate=useNavigate()
+  const dispatch=useDispatch();
   // const [redirect,setRedirect]=useState(false);
   const handleChange:React.ChangeEventHandler<HTMLInputElement>=(e)=>{
     const {name,value}=e.target;
     setLoginData({...loginData,[name]:value})
   }
   // {state.isAuth && navigate("/")}
- useEffect(()=>{
-getData().then((res)=>setData(res))
- },[])
+//  useEffect(()=>{
+// getData().then((res)=>setData(res))
+//  },[])
   const handleSubmit:React.FormEventHandler<HTMLFormElement>=(e)=>{
     e.preventDefault()
-    getData().then((res)=>{
-    console.log(res)
-    setData(res)
-  })
+    const payload={
+      email:loginData.email,
+      password:loginData.password,
+      dispatch
+    }
+    userLogin(payload).then((res)=>navigate("/",{replace:true}))
+    
+
+    // getData().then((res)=>{
+    // console.log(res)
+    // setData(res)
+  // })
   // authenticate()
   }
 // const authenticate=()=>{

@@ -1,5 +1,5 @@
-import { Box, Button, Center, Flex, Image } from "@chakra-ui/react";
-import React from "react";
+import { Box, Button, Center, Flex, Image, SimpleGrid } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../../Components/Footer";
 import {
@@ -13,62 +13,264 @@ import {
   TableCaption,
   TableContainer,
 } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
+import { IgetProductData } from "../../Redux/AppReducer/action";
+import { getCartProduct } from "../../Redux/AppReducer/action_creaters";
+import { useDispatch } from "react-redux";
+import Cartcard from "../../Components/CartPage/Cartcard";
+import { Icart_wishlistData } from "../../Redux/AppReducer/reducer";
+
 const Cart = () => {
-  return (
-    <>
-      <Flex w="100%" h="68vh" direction="column" >
-        <Center>
-          <Flex direction="column" justify="center" align="center">
-            <Image
-              w="35%"
-              src="https://images.bewakoof.com/web/group-3x-1509961969.png"
-            />
-            <Box>Your Cart is Empty!</Box>
-            <Button
-              border="2px solid #51cccc"
-              m="20px 0"
-              p="10px"
-              borderRadius="5px"
-              bg="white"
-              color="#51cccc"
-              cursor="pointer"
-            >
-              <Link to="/">Continue Shopping</Link>
-            </Button>
-          </Flex>
-        </Center>
-        <hr
-          style={{ width: "430px", margin: "18px auto", textAlign: "center" }}
-        />
-        <Flex m="35px 10"  direction="column" justify="center" align={"center"} >
-          <Box opacity= ".6" color="rgba(0,0,0,.8)" >You could try one of these categories:</Box>
+  const dispatch = useDispatch();
+  const cartData: Icart_wishlistData[] = useSelector(
+    (state: any) => state.AppReducer.cartData
+  );
+  useEffect(() => {
+    const payload = {
+      dispatch,
+    };
+    getCartProduct(payload);
+  }, []);
+
+  if (cartData.length > 0) {
+    return (
+      <>
+        <Flex  w="60%" m="auto" direction="column">
+          <Box
+            w="100%"
+            textAlign="left"
+            fontSize="15px"
+            p="39px 0 0"
+            fontWeight="bold"
+          >
+            My Bag {cartData.length}{" "}
+            <Box fontWeight="500" as="span">
+              {cartData.length === 1 ? " item" : " item(s)"}
+            </Box>{" "}
+          </Box>
           <Box>
-            <TableContainer mt="20px" color="#51cccc" >
-              <Table variant="unstyled">
-               
-                <Thead>
-                  <Tr p="5px 50px" >
-                    <Th p="5px 50px" color="black" >Men</Th>
-                    <Td p="5px 50px" textDecoration="lightcyan" >Topwear</Td>
-                    <Td p="5px 50px" textDecoration="lightcyan" >Bottomwear</Td>
-                  </Tr>
-                  <Tr p="5px 50px" >
-                    <Th p="5px 50px 15px 50px" ></Th>
-                    <Td p="5px 50px 15px 50px" textDecoration="lightcyan" >Popular</Td>
-                    <Td p="5px 50px 15px 50px" textDecoration="lightcyan" >Winterwear</Td>
-                  </Tr>
-                  <Tr p="5px 50px" >
-                    <Th p="5px 50px" color="black" >Women</Th>
-                    <Td p="5px 50px" textDecoration="lightcyan" >Topwear</Td>
-                    <Td p="5px 50px" textDecoration="lightcyan" >Bottomwear</Td>
-                  </Tr>
-                  <Tr p="5px 50px" >
-                    <Th p="5px 50px" ></Th>
-                    <Td p="5px 50px" textDecoration="lightcyan" >Popular</Td>
-                    <Td p="5px 50px" textDecoration="lightcyan" >Winterwear</Td>
-                  </Tr>
-                </Thead>
-                {/* <Tbody>
+            <Flex p="35px 0 100px">
+              <Flex direction="column" pr="15px" w="60% ">
+                <Flex
+                  h="50px"
+                  bg="rgb(252, 255, 238)"
+                  fontSize="12px"
+                  align="center"
+                >
+                  {" "}
+                  <Image
+                    ml="12px"
+                    h="12px"
+                    w="19px"
+                    src="https://images.bewakoof.com/web/Red-truck.png"
+                  />{" "}
+                  <Box ml="15px">Yay! You get FREE delivery on this order</Box>
+                </Flex>
+                <Flex direction="column">
+                  {cartData.length > 0 &&
+                    cartData?.map((item) => {
+                      return <Cartcard key={item.id} {...item} />;
+                    })}
+                </Flex>
+              </Flex>
+              <Box w="40%">
+                <Flex
+                  bg="#FDD835"
+                  align="center"
+                  m="0 0 15px"
+                  p="0 18px 0 15px"
+                  borderRadius="5px"
+                  fontSize="14px"
+                  h="50px"
+                  textAlign="left"
+                >
+                  <Box as="p">
+                    Save extra{" "}
+                    <Box as="span" fontWeight="bold">
+                      ₹130
+                    </Box>{" "}
+                    with TriBe
+                  </Box>
+                </Flex>
+                <Box
+                  m=" 0 0 15px"
+                  p="5px 15px"
+                  borderRadius="4px"
+                  border="1px solid rgb(234, 234, 234)"
+                >
+                  <Box fontSize="14px" textAlign="left">
+                    Whistles! Get extra 10% cashback on all prepaid orders above
+                    Rs.499 Use Code - PREP10.
+                  </Box>
+                </Box>
+                <Box p="6px" border="1px solid #eaeaea" fontSize="12px">
+                  <Flex
+                    borderRadius="5px"
+                    backgroundColor="rgba(66,162,161,.1)"
+                    p="10px"
+                    align="center"
+                    justify="space-between"
+                  >
+                    {" "}
+                    <Box as="span" color="#42A2A2" fontSize="12px">
+                      {" "}
+                      Have a Coupon / Referral / Gift Card ?
+                    </Box>
+                    <Flex color="#42A2A2" align="center" fontWeight="bold">
+                      Redeem{" "}
+                      <Image
+                        ml="6px"
+                        w="12px"
+                        h="12px"
+                        src="https://images.bewakoof.com/web/coupon-redeem-arrow-1634641878.png"
+                      />
+                    </Flex>
+                  </Flex>{" "}
+                </Box>
+                <Box border="1px solid #eaeaea">
+                  <Box
+                    p="13px 20px"
+                    bg="#0000000A"
+                    fontSize="11px"
+                    fontWeight="bold"
+                    textAlign="left"
+                    
+                  >
+                    PRICE SUMMARY
+                  </Box>
+                  <Box p="15px 20px 0px" fontSize={"12px"}>
+                    <Flex align="center" justify="space-between" pb="10px">
+                      <Box as="p">Total MRP (Incl. of Taxes)</Box>
+                      <Box as="p">₹ 3447</Box>
+                    </Flex>
+                    <Flex align="center" justify="space-between" pb="10px">
+                      <Box as="p">Shipping Charges</Box>
+                      <Box as="p" color="#1D8802">
+                        FREE
+                      </Box>
+                    </Flex>
+                    <Flex align="center" justify="space-between" pb="10px">
+                      <Box as="p">Bag Discount</Box>
+                      <Box as="p">-₹ 1700</Box>
+                    </Flex>
+                    <Flex align="center" justify="space-between" pb="10px">
+                      <Box as="p">Subtotal</Box>
+                      <Box as="p">₹ 1747</Box>
+                    </Flex>
+                    <Box
+                      p="6px 10px"
+                      m="5px 0px 0px"
+                      bg="#1D88021A"
+                      textAlign="left"
+                      borderRadius="14px"
+                      fontSize="12px"
+                      color="#1D8802"
+                    >
+                      You are saving ₹ 1700 on this order
+                    </Box>
+                    <Flex
+                      justify="space-between"
+                      align="center"
+                      m="40px -15px 0px -20px"
+                      borderTop="1px solid #eaeaea"
+                      p="10px"
+                    >
+                      <Box>
+                        <Box as="span" >Total</Box>
+                        <Box as="p" fontSize={"16px"} >₹ 1747</Box>
+                      </Box>
+                      <Button w="280px" color="white" p="15px" bg="#42A2A2" fontSize={"16px"} borderRadius="5px" >ADD ADDRESS</Button>
+                    </Flex>
+                  </Box>
+                </Box>
+              </Box>
+            </Flex>
+          </Box>
+        </Flex>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Flex w="100%" h="68vh" direction="column">
+          <Center>
+            <Flex direction="column" justify="center" align="center">
+              <Image
+                w="35%"
+                src="https://images.bewakoof.com/web/group-3x-1509961969.png"
+              />
+              <Box>Your Cart is Empty!</Box>
+              <Button
+                border="2px solid #51cccc"
+                m="20px 0"
+                p="10px"
+                borderRadius="5px"
+                bg="white"
+                color="#51cccc"
+                cursor="pointer"
+              >
+                <Link to="/">Continue Shopping</Link>
+              </Button>
+            </Flex>
+          </Center>
+          <hr
+            style={{ width: "430px", margin: "18px auto", textAlign: "center" }}
+          />
+          <Flex
+            m="35px 10"
+            direction="column"
+            justify="center"
+            align={"center"}
+          >
+            <Box opacity=".6" color="rgba(0,0,0,.8)">
+              You could try one of these categories:
+            </Box>
+            <Box>
+              <TableContainer mt="20px" color="#51cccc">
+                <Table variant="unstyled">
+                  <Thead>
+                    <Tr p="5px 50px">
+                      <Th p="5px 50px" color="black">
+                        Men
+                      </Th>
+                      <Td p="5px 50px" textDecoration="lightcyan">
+                        Topwear
+                      </Td>
+                      <Td p="5px 50px" textDecoration="lightcyan">
+                        Bottomwear
+                      </Td>
+                    </Tr>
+                    <Tr p="5px 50px">
+                      <Th p="5px 50px 15px 50px"></Th>
+                      <Td p="5px 50px 15px 50px" textDecoration="lightcyan">
+                        Popular
+                      </Td>
+                      <Td p="5px 50px 15px 50px" textDecoration="lightcyan">
+                        Winterwear
+                      </Td>
+                    </Tr>
+                    <Tr p="5px 50px">
+                      <Th p="5px 50px" color="black">
+                        Women
+                      </Th>
+                      <Td p="5px 50px" textDecoration="lightcyan">
+                        Topwear
+                      </Td>
+                      <Td p="5px 50px" textDecoration="lightcyan">
+                        Bottomwear
+                      </Td>
+                    </Tr>
+                    <Tr p="5px 50px">
+                      <Th p="5px 50px"></Th>
+                      <Td p="5px 50px" textDecoration="lightcyan">
+                        Popular
+                      </Td>
+                      <Td p="5px 50px" textDecoration="lightcyan">
+                        Winterwear
+                      </Td>
+                    </Tr>
+                  </Thead>
+                  {/* <Tbody>
                   <Tr>
                     <Td>inches</Td>
                     <Td>millimetres (mm)</Td>
@@ -92,14 +294,15 @@ const Cart = () => {
                     <Th isNumeric>multiply by</Th>
                   </Tr>
                 </Tfoot> */}
-              </Table>
-            </TableContainer>
-          </Box>
+                </Table>
+              </TableContainer>
+            </Box>
+          </Flex>
         </Flex>
-      </Flex>
-      <Footer />
-    </>
-  );
+        <Footer />
+      </>
+    );
+  }
 };
 
 export default Cart;

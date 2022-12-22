@@ -9,7 +9,8 @@ isLoading:boolean;
 customerUsers:Iusers[];
 merchantUsers:Iusers[];
 token:string;
-
+user:Iusers[];
+username:string;
 }
 interface Iaction{
 types:string
@@ -21,7 +22,9 @@ const initialState={
     token:localStorage.getItem("token") || "",
     isLoading:false, 
     customerUsers:[],
-    merchantUsers:[]
+    merchantUsers:[],
+    user:[],
+    username:""
 }
 
 const reducer = (state:IstateProps=initialState,action:AuthActions) => {
@@ -38,7 +41,7 @@ const reducer = (state:IstateProps=initialState,action:AuthActions) => {
         localStorage.setItem("token", action.payload.token)
         return {
           
-          ...state, isAuth:true, token:action.payload.token,
+          ...state, isAuth:true, token:action.payload.token, username:action.payload.name
 
         }
     default:

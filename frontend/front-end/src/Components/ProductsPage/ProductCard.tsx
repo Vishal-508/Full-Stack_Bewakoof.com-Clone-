@@ -1,10 +1,14 @@
 import React from 'react'
 import { Box, Button, Flex, Image, Text } from "@chakra-ui/react";
 // import React, { useContext } from "react";
-import { Link, useParams } from "react-router-dom";
-import { IproductData } from '../../Redux/AppReducer/reducer';
+import { Link, useNavigate, useParams } from "react-router-dom";
+import {  IproductData } from '../../Redux/AppReducer/reducer';
+
 const ProductCard = (props:IproductData) => {
-    const {id,
+  const navigate=useNavigate();
+    const {
+      _id,
+      id,
         all_offer_price,
         description ,
         category,
@@ -12,7 +16,6 @@ const ProductCard = (props:IproductData) => {
         display_image,
         flip_image ,
         product_sizes,
-        stock_status,
         member_price,
         mrp,
         name,
@@ -30,10 +33,17 @@ const ProductCard = (props:IproductData) => {
         member_discount,
         product_discount,
         manufacturer_brand}=props
+
+      const handlePage=()=>{
+        let id=_id;
+        navigate(`/SingleProductPage/${id}`) 
+
+      }
+       
     return (
-        <Box >
-          <Link to={`/SingleProductPage/${id}`}>
-            <Box w="282.48px" h="450.84px" key={id} textAlign="left">
+        <Box  >
+          {/* <Link to={`/SingleProductPage/${}`}> */}
+            <Box cursor="pointer" onClick={handlePage} w="282.48px" h="450.84px" key={id} textAlign="left" >
               <Image
                 src={`https://images.bewakoof.com/t640/${display_image}`}
                 alt={name}
@@ -41,6 +51,7 @@ const ProductCard = (props:IproductData) => {
               <Box>
                 <Text fontSize="12px" fontWeight="bold">
                   {manufacturer_brand}
+                  {/* {_id} */}
                 </Text>
                 <Box fontSize="10px" color="#737373" mt="4px">
                   {name}
@@ -66,7 +77,7 @@ const ProductCard = (props:IproductData) => {
                 </Flex>
               </Box>
             </Box>
-          </Link>
+          {/* </Link> */}
         </Box>
       );
 }
