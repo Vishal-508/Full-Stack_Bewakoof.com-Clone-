@@ -24,7 +24,7 @@ const initialState={
     customerUsers:[],
     merchantUsers:[],
     user:[],
-    username:""
+    username: localStorage.getItem("UName") || "",
 }
 
 const reducer = (state:IstateProps=initialState,action:AuthActions) => {
@@ -38,7 +38,8 @@ const reducer = (state:IstateProps=initialState,action:AuthActions) => {
         ...state, isLoading:false, isError:true 
       }
       case Auth_Action_Type.USER_LOGIN_SUCCESS:
-        localStorage.setItem("token", action.payload.token)
+        localStorage.setItem("token", action.payload.token);
+        localStorage.setItem("UName", action.payload.name);
         return {
           
           ...state, isAuth:true, token:action.payload.token, username:action.payload.name

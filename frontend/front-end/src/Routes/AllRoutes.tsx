@@ -6,8 +6,11 @@ import MerchantDashboard from './MerchantPages/MerchantDashboard'
 import MerchantLogin from './MerchantPages/MerchantLogin'
 import MerchantSignUp from './MerchantPages/MerchantSignUp'
 import PrivateRoute from './PrivateRoute'
+import AddressPage from './UserPages/AddressPage'
 import Cart from './UserPages/Cart'
 import Home from './UserPages/Home'
+import OrderPage from './UserPages/OrderPage'
+import PaymentPage from './UserPages/PaymentPage'
 import ProductsPage from './UserPages/ProductsPage'
 import SingleProductPage from './UserPages/SingleProductPage'
 import UserLogin from './UserPages/UserLogin'
@@ -22,9 +25,13 @@ const AllRoutes = () => {
     <Route path='/UserLogin' element={<UserLogin/>} />
     <Route path='/ProductsPage' element={<ProductsPage/>} />
     <Route path='/SingleProductPage/:id' element={<SingleProductPage/>} />
+
     {/* private routes below */}
     <Route path='/CartPage' element={<PrivateRoute><Cart/></PrivateRoute>} />
     <Route path='/WishListPage' element={<PrivateRoute><WishList/></PrivateRoute>} />
+    <Route path='/PaymentPage' element={<PrivateRoute><PaymentPage/></PrivateRoute>} />
+    <Route path='/AddressPage' element={<PrivateRoute><AddressPage/></PrivateRoute>} />
+    <Route path='/OrderPage' element={<PrivateRoute><OrderPage/></PrivateRoute>} />
 
     {/* ADMIN'S ROUTES */}
     <Route path='/AdminLogin' element={<AdminLogin/>} />

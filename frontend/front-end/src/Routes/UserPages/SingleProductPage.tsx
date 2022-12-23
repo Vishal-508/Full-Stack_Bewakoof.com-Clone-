@@ -26,8 +26,10 @@ import { useDispatch } from "react-redux";
 import {
   getSingleProduct,
   postCartProduct,
+  postWishlistProduct,
 } from "../../Redux/AppReducer/action_creaters";
 import { IgetProductData } from "../../Redux/AppReducer/action";
+import Footer from "../../Components/Footer";
 const SingleProductPage = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -77,30 +79,72 @@ console.log(size);
       PCdata: data,
       dispatch,
     };
-    postCartProduct(payload)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    
+if(size.length===0){
+  alert("select size first")
+ 
+}else{
+  postCartProduct(payload)
+  .then((res) => console.log(res))
+  .catch((err) => console.log(err));
+}
+    
 
-    //  if(cartData.length==0){
+    //  if(cartData.length===0){
     //     postCartProduct(payload)
+    //     return alert("product is added")
     //  }else{
     //   var flag=false;
     //    cartData.length>0 && cartData.forEach((item)=>{
-    //       if( item._id==sdata._id){
+    //       if( item._id===id){
     //         flag=true;
     //       }
     //     })
     //   if(flag){
-    // <Alert status='warning'>
-    //     <AlertIcon />
-    //     Seems your account is about expire, upgrade now
-    //   </Alert>
+    //  return alert("This product is already in the cart")
     //   }else{
-    //     postCartProduct(payload)
+    //     postCartProduct(payload);
+    //     return alert("product is added!")
 
     //   }
     //  }
   };
+  const handleMove=()=>{
+    let data: Icart_wishlistData = {
+      Pid:sdata._id,
+      id: sdata.id,
+      all_offer_price: sdata.all_offer_price,
+      category: sdata.category,
+      display_image: sdata.display_image,
+      member_price: sdata.member_price,
+      mrp: sdata.mrp,
+      name: sdata.name,
+      offer_type: sdata.offer_type,
+      product_sizes: size,
+      price: sdata.price,
+      gender: sdata.gender,
+      quantity: 1,
+      offer: sdata.offer,
+      member_discount: sdata.member_discount,
+      product_discount: sdata.product_discount,
+      manufacturer_brand: sdata.manufacturer_brand,
+    };
+    const payload = {
+      PCdata: data,
+      dispatch,
+    };
+
+    if(size.length===0){
+      alert("select size first")
+     
+    }else{
+      postWishlistProduct(payload)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+      alert("product is added into wishlist!")
+    }
+
+  }
 
   return (
     <div>
@@ -188,10 +232,10 @@ console.log(size);
               </Text>
             </Flex>
             <Box m="auto" w="470px" h="3px" bg="#EEEEEE"></Box>
-            <Box fontSize="12px" p="16px 0">
-              <Text>
+            <Box fontSize="12px" p="16px 0"  >
+              <Text mr="72px">
                 TriBe members get an extra discount of{" "}
-                <Box as="span" fontWeight="bold">
+                <Box textAlign="left" as="span" fontWeight="bold">
                   ₹50
                 </Box>{" "}
                 and FREE shipping.
@@ -223,6 +267,7 @@ console.log(size);
                   _active={{border: "1px solid #4acccd",
                     backgroundColor: "#000",
                     color: "#fff"}}
+                    _hover={{border:"2px solid #4acccd", cursor:"pointer"}}
                   // cursor="pointer"
                   
                 >
@@ -267,6 +312,7 @@ console.log(size);
                   w="195px"
                   bg="#ffffff"
                   fontSize="14px"
+                  onClick={handleMove}
                 >
                   WISHLIST
                 </Button>
@@ -276,6 +322,7 @@ console.log(size);
           <Box m="auto" w="470px" h="3px" bg="#EEEEEE"></Box>
         </Box>
       </Flex>
+      <Footer/>
     </div>
   );
 };

@@ -1,6 +1,21 @@
-import { Box, Button, Center, Flex, Image, SimpleGrid } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  Flex,
+  FormControl,
+  FormLabel,
+  Image,
+  Input,
+  SimpleGrid,
+  Spacer,
+  useDisclosure,
+  Radio,
+  RadioGroup,
+  Stack,
+} from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../../Components/Footer";
 import {
   Table,
@@ -12,30 +27,86 @@ import {
   Td,
   TableCaption,
   TableContainer,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { IgetProductData } from "../../Redux/AppReducer/action";
-import { getCartProduct } from "../../Redux/AppReducer/action_creaters";
+import { getAddressData, getCartProduct } from "../../Redux/AppReducer/action_creaters";
 import { useDispatch } from "react-redux";
 import Cartcard from "../../Components/CartPage/Cartcard";
-import { Icart_wishlistData } from "../../Redux/AppReducer/reducer";
-
+import {
+  IaddressData,
+  Icart_wishlistData,
+} from "../../Redux/AppReducer/reducer";
+import { postAddressData } from "../../Redux/AppReducer/action_creaters";
 const Cart = () => {
   const dispatch = useDispatch();
+  const navigate=useNavigate();
+  const [formData, setFormData] = useState<any>();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const cartData: Icart_wishlistData[] = useSelector(
     (state: any) => state.AppReducer.cartData
   );
+  const [value, setValue] = React.useState('home')
+  const [userName, setUserName] = useState("");
+  const [number, setNumber] = useState<any>(0);
+  const [pincode, setPincode] = useState<any>(0);
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [flate, setFlate] = useState("");
+  const [area, setArea] = useState("");
+  const [landmark, setLandmark] = useState("");
+
   useEffect(() => {
     const payload = {
       dispatch,
     };
     getCartProduct(payload);
+    getAddressData(payload).then((res)=>console.log(res)).catch((err)=>console.log(err))
+
   }, []);
+  const addressData: IaddressData[] = useSelector(
+    (state: any) => state.AppReducer.addressData
+  );
+  // console.log(cartData);
+  // console.log(addressData);
+
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    let addData={
+      pin_code:pincode,
+      city:city,
+      state:state,
+      flat_street_name:flate,
+      area_locality:area,
+      landmark:landmark,
+      address_as:value,
+      name:userName,
+      number:number,
+
+    }
+    let payload={
+      addData:addData,
+      dispatch
+    }
+    postAddressData(payload).then((res)=>navigate("/PaymentPage")).catch((err)=>alert("fill wright address"))
+  };
+
+const gotopayment=()=>{
+  navigate("/PaymentPage")
+}
 
   if (cartData.length > 0) {
     return (
       <>
-        <Flex  w="60%" m="auto" direction="column">
+        <Flex w="60%" m="auto" direction="column">
           <Box
             w="100%"
             textAlign="left"
@@ -73,114 +144,295 @@ const Cart = () => {
                     })}
                 </Flex>
               </Flex>
-              <Box w="40%">
-                <Flex
-                  bg="#FDD835"
-                  align="center"
-                  m="0 0 15px"
-                  p="0 18px 0 15px"
-                  borderRadius="5px"
-                  fontSize="14px"
-                  h="50px"
-                  textAlign="left"
-                >
-                  <Box as="p">
-                    Save extra{" "}
-                    <Box as="span" fontWeight="bold">
-                      ₹130
-                    </Box>{" "}
-                    with TriBe
-                  </Box>
-                </Flex>
-                <Box
-                  m=" 0 0 15px"
-                  p="5px 15px"
-                  borderRadius="4px"
-                  border="1px solid rgb(234, 234, 234)"
-                >
-                  <Box fontSize="14px" textAlign="left">
-                    Whistles! Get extra 10% cashback on all prepaid orders above
-                    Rs.499 Use Code - PREP10.
-                  </Box>
-                </Box>
-                <Box p="6px" border="1px solid #eaeaea" fontSize="12px">
+              <Box w="40%" position={"relative"}>
+                <Box position={"sticky"} top="52px">
                   <Flex
-                    borderRadius="5px"
-                    backgroundColor="rgba(66,162,161,.1)"
-                    p="10px"
+                    bg="#FDD835"
                     align="center"
-                    justify="space-between"
-                  >
-                    {" "}
-                    <Box as="span" color="#42A2A2" fontSize="12px">
-                      {" "}
-                      Have a Coupon / Referral / Gift Card ?
-                    </Box>
-                    <Flex color="#42A2A2" align="center" fontWeight="bold">
-                      Redeem{" "}
-                      <Image
-                        ml="6px"
-                        w="12px"
-                        h="12px"
-                        src="https://images.bewakoof.com/web/coupon-redeem-arrow-1634641878.png"
-                      />
-                    </Flex>
-                  </Flex>{" "}
-                </Box>
-                <Box border="1px solid #eaeaea">
-                  <Box
-                    p="13px 20px"
-                    bg="#0000000A"
-                    fontSize="11px"
-                    fontWeight="bold"
+                    m="0 0 15px"
+                    p="0 18px 0 15px"
+                    borderRadius="5px"
+                    fontSize="14px"
+                    h="50px"
                     textAlign="left"
-                    
                   >
-                    PRICE SUMMARY
-                  </Box>
-                  <Box p="15px 20px 0px" fontSize={"12px"}>
-                    <Flex align="center" justify="space-between" pb="10px">
-                      <Box as="p">Total MRP (Incl. of Taxes)</Box>
-                      <Box as="p">₹ 3447</Box>
-                    </Flex>
-                    <Flex align="center" justify="space-between" pb="10px">
-                      <Box as="p">Shipping Charges</Box>
-                      <Box as="p" color="#1D8802">
-                        FREE
-                      </Box>
-                    </Flex>
-                    <Flex align="center" justify="space-between" pb="10px">
-                      <Box as="p">Bag Discount</Box>
-                      <Box as="p">-₹ 1700</Box>
-                    </Flex>
-                    <Flex align="center" justify="space-between" pb="10px">
-                      <Box as="p">Subtotal</Box>
-                      <Box as="p">₹ 1747</Box>
-                    </Flex>
-                    <Box
-                      p="6px 10px"
-                      m="5px 0px 0px"
-                      bg="#1D88021A"
-                      textAlign="left"
-                      borderRadius="14px"
-                      fontSize="12px"
-                      color="#1D8802"
-                    >
-                      You are saving ₹ 1700 on this order
+                    <Box as="p">
+                      Save extra{" "}
+                      <Box as="span" fontWeight="bold">
+                        ₹130
+                      </Box>{" "}
+                      with TriBe
                     </Box>
+                  </Flex>
+                  <Box
+                    m=" 0 0 15px"
+                    p="5px 15px"
+                    borderRadius="4px"
+                    border="1px solid rgb(234, 234, 234)"
+                  >
+                    <Box fontSize="14px" textAlign="left">
+                      Whistles! Get extra 10% cashback on all prepaid orders
+                      above Rs.499 Use Code - PREP10.
+                    </Box>
+                  </Box>
+                  <Box p="6px" border="1px solid #eaeaea" fontSize="12px">
                     <Flex
-                      justify="space-between"
-                      align="center"
-                      m="40px -15px 0px -20px"
-                      borderTop="1px solid #eaeaea"
+                      borderRadius="5px"
+                      backgroundColor="rgba(66,162,161,.1)"
                       p="10px"
+                      align="center"
+                      justify="space-between"
                     >
-                      <Box>
-                        <Box as="span" >Total</Box>
-                        <Box as="p" fontSize={"16px"} >₹ 1747</Box>
+                      {" "}
+                      <Box as="span" color="#42A2A2" fontSize="12px">
+                        {" "}
+                        Have a Coupon / Referral / Gift Card ?
                       </Box>
-                      <Button w="280px" color="white" p="15px" bg="#42A2A2" fontSize={"16px"} borderRadius="5px" >ADD ADDRESS</Button>
-                    </Flex>
+                      <Flex color="#42A2A2" align="center" fontWeight="bold">
+                        Redeem{" "}
+                        <Image
+                          ml="6px"
+                          w="12px"
+                          h="12px"
+                          src="https://images.bewakoof.com/web/coupon-redeem-arrow-1634641878.png"
+                        />
+                      </Flex>
+                    </Flex>{" "}
+                  </Box>
+                  <Box border="1px solid #eaeaea">
+                    <Box
+                      p="13px 20px"
+                      bg="#0000000A"
+                      fontSize="11px"
+                      fontWeight="bold"
+                      textAlign="left"
+                    >
+                      PRICE SUMMARY
+                    </Box>
+                    <Box p="15px 20px 0px" fontSize={"12px"}>
+                      <Flex align="center" justify="space-between" pb="10px">
+                        <Box as="p">Total MRP (Incl. of Taxes)</Box>
+                        <Box as="p">₹ 3447</Box>
+                      </Flex>
+                      <Flex align="center" justify="space-between" pb="10px">
+                        <Box as="p">Shipping Charges</Box>
+                        <Box as="p" color="#1D8802">
+                          FREE
+                        </Box>
+                      </Flex>
+                      <Flex align="center" justify="space-between" pb="10px">
+                        <Box as="p">Bag Discount</Box>
+                        <Box as="p">-₹ 1700</Box>
+                      </Flex>
+                      <Flex align="center" justify="space-between" pb="10px">
+                        <Box as="p">Subtotal</Box>
+                        <Box as="p">₹ 1747</Box>
+                      </Flex>
+                      <Box
+                        p="6px 10px"
+                        m="5px 0px 0px"
+                        bg="#1D88021A"
+                        textAlign="left"
+                        borderRadius="14px"
+                        fontSize="12px"
+                        color="#1D8802"
+                      >
+                        You are saving ₹ 1700 on this order
+                      </Box>
+                      <Flex
+                        justify="space-between"
+                        align="center"
+                        m="40px -15px 0px -20px"
+                        borderTop="1px solid #eaeaea"
+                        p="10px"
+                      >
+                        <Box>
+                          <Box as="span">Total</Box>
+                          <Box as="p" fontSize={"16px"}>
+                            ₹ 1747
+                          </Box>
+                        </Box>
+                        <Box>
+                          {" "}
+                          {addressData.length === 0 ? <Box>
+                              {" "}
+                              <Button
+                                w="280px"
+                                color="white"
+                                p="15px"
+                                bg="#42A2A2"
+                                fontSize={"16px"}
+                                borderRadius="5px"
+                                onClick={onOpen}
+                                _hover={{ background: "#42B2A9" }}
+                              >
+                                ADD ADDRESS
+                              </Button>
+                              <Modal
+                                onClose={onClose}
+                                isOpen={isOpen}
+                                isCentered
+                              >
+                                <ModalOverlay />
+                                <ModalContent height="90%">
+                                  <form onSubmit={handleSubmit}>
+                                    <ModalHeader>Add New Address</ModalHeader>
+                                    <ModalCloseButton />
+                                    <ModalBody>
+                                      <FormControl id="userName" isRequired>
+                                        <FormLabel>Name</FormLabel>
+                                        <Input
+                                          value={userName}
+                                          onChange={(e) =>
+                                            setUserName(e.target.value)
+                                          }
+                                          placeholder="UserName"
+                                          _placeholder={{ color: "gray.500" }}
+                                          type="text"
+                                        />
+                                      </FormControl>
+                                      <FormControl id="number" isRequired>
+                                        <FormLabel>Mobile Number</FormLabel>
+                                        <Input
+                                          value={number}
+                                          onChange={(e) =>
+                                            setNumber(e.target.value)
+                                          }
+                                          placeholder="+91- 9090908905"
+                                          _placeholder={{ color: "gray.500" }}
+                                          type="number"
+                                        />
+                                      </FormControl>
+                                      <FormControl id="Pincode" isRequired>
+                                        <FormLabel>PinCode</FormLabel>
+                                        <Input
+                                          value={pincode}
+                                          onChange={(e) =>
+                                            setPincode(e.target.value)
+                                          }
+                                          placeholder="Pincode/Postal Code/Zipcode"
+                                          _placeholder={{ color: "gray.500" }}
+                                          type="Number"
+                                        />
+                                      </FormControl>
+                                      <FormControl id="City" isRequired>
+                                        <FormLabel>City</FormLabel>
+                                        <Input
+                                          value={city}
+                                          onChange={(e) =>
+                                            setCity(e.target.value)
+                                          }
+                                          placeholder="City"
+                                          _placeholder={{ color: "gray.500" }}
+                                          type="text"
+                                        />
+                                      </FormControl>
+                                      <FormControl id="State" isRequired>
+                                        <FormLabel>State</FormLabel>
+                                        <Input
+                                          value={state}
+                                          onChange={(e) =>
+                                            setState(e.target.value)
+                                          }
+                                          placeholder="State"
+                                          _placeholder={{ color: "gray.500" }}
+                                          type="text"
+                                        />
+                                      </FormControl>
+                                      <FormControl id="userName" isRequired>
+                                        <FormLabel>
+                                          Flat no, Street name
+                                        </FormLabel>
+                                        <Input
+                                          value={flate}
+                                          onChange={(e) =>
+                                            setFlate(e.target.value)
+                                          }
+                                          placeholder="flatNumber"
+                                          _placeholder={{ color: "gray.500" }}
+                                          type="text"
+                                        />
+                                      </FormControl>
+                                      <FormControl id="Area" isRequired>
+                                        <FormLabel>Area/Locality</FormLabel>
+                                        <Input
+                                          value={area}
+                                          onChange={(e) =>
+                                            setArea(e.target.value)
+                                          }
+                                          placeholder="Area/Locality"
+                                          _placeholder={{ color: "gray.500" }}
+                                          type="text"
+                                        />
+                                      </FormControl>
+                                      <FormControl id="landmark" isRequired>
+                                        <FormLabel>Landmark</FormLabel>
+                                        <Input
+                                          value={landmark}
+                                          onChange={(e) =>
+                                            setLandmark(e.target.value)
+                                          }
+                                          placeholder="landmark"
+                                          _placeholder={{ color: "gray.500" }}
+                                          type="text"
+                                        />
+                                      </FormControl>
+
+                                      <RadioGroup
+                                        onChange={setValue}
+                                        value={value}
+                                      >
+                                        <Stack direction="row">
+                                          <Radio value="Home">Home</Radio>
+                                          <Radio value="Office">Office</Radio>
+                                          <Radio value="Other">Other</Radio>
+                                        </Stack>
+                                      </RadioGroup>
+                                    </ModalBody>
+                                    <ModalFooter>
+                                      <input
+                                        style={{
+                                          color: "white",
+                                          padding: "15px",
+                                          background: "#42A2A2",
+                                          fontSize: "16px",
+                                          borderRadius: "5px",
+                                        }}
+                                        // _hover={{ background: "#42B2A9" }}
+                                        type="submit"
+                                        value="SAVE ADDRESS"
+                                      />
+                                      <Spacer />{" "}
+                                      <Button onClick={onClose}>CANCEL</Button>
+                                    </ModalFooter>
+                                  </form>
+                                </ModalContent>
+                              </Modal>
+                            </Box> : <Button
+                              w="280px"
+                              color="white"
+                              p="15px"
+                              bg="#42A2A2"
+                              fontSize={"16px"}
+                              borderRadius="5px"
+                              onClick={gotopayment}
+                            >
+                              CONTINUE{" "}
+                            </Button>
+                          }
+                        </Box>
+                        {/* <Button
+                        w="280px"
+                        color="white"
+                        p="15px"
+                        bg="#42A2A2"
+                        fontSize={"16px"}
+                        borderRadius="5px"
+                      >
+                        ADD ADDRESS
+                      </Button> */}
+                      </Flex>
+                    </Box>
                   </Box>
                 </Box>
               </Box>

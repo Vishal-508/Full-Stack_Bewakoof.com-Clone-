@@ -68,6 +68,7 @@ const Navbar = () => {
   const handleLogOut=()=>{
     const empty:string="";
     localStorage.setItem("token",empty);
+    localStorage.setItem("UName",empty);
     navigate("/")
    window.location.reload()
   }

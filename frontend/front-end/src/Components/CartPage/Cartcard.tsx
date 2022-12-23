@@ -18,9 +18,17 @@ import {
 import { useNavigate } from "react-router-dom";
 import { Icart_wishlistData } from "../../Redux/AppReducer/reducer";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import {
+  DeleteCartProduct,
+  getCartProduct,
+  postWishlistProduct,
+} from "../../Redux/AppReducer/action_creaters";
+import { useDispatch } from "react-redux";
 const Cartcard = (props: Icart_wishlistData) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
+    _id,
     Pid,
     id,
     all_offer_price,
@@ -40,6 +48,52 @@ const Cartcard = (props: Icart_wishlistData) => {
     manufacturer_brand,
     userId,
   } = props;
+
+  const handleDelete = () => {
+    const payload = {
+      _id: _id,
+      dispatch,
+    };
+    const load = {
+      dispatch,
+    };
+    DeleteCartProduct(payload).then((res) => getCartProduct(load));
+  };
+
+  const handleMove = () => {
+    let data: Icart_wishlistData = {
+      Pid: Pid,
+      id: id,
+      all_offer_price: all_offer_price,
+      category: category,
+      display_image: display_image,
+      member_price: member_price,
+      mrp: mrp,
+      name: name,
+      offer_type: offer_type,
+      product_sizes: product_sizes,
+      price: price,
+      gender: gender,
+      quantity: quantity,
+      offer: offer,
+      member_discount: member_discount,
+      product_discount: product_discount,
+      manufacturer_brand: manufacturer_brand,
+    };
+    const payload={
+        PCdata:data,
+        dispatch
+    }
+    const load = {
+        _id: _id,
+        dispatch,
+      };
+      const oad = {
+        dispatch,
+      };
+    postWishlistProduct(payload).then((res)=>DeleteCartProduct(load)).then((res) => getCartProduct(oad))
+  };
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box borderRadius="5px" border="1px solid rgba(0,0,0,.2)" m="10px 0">
@@ -65,33 +119,102 @@ const Cartcard = (props: Icart_wishlistData) => {
             <Box fontSize={"14px"} color={"#1D8802"}>
               You saved ₹{Number(mrp - price)}!
             </Box>
-            <Flex align={"center"} >
-              <Box m="0 16px 0 0 " p="11px 0" >
-                <Button fontSize={"12px"} border="1px solid #eaeaea" size={"sm"}  p="5px 11px" bg={"white"} onClick={onOpen}>SIZE:&nbsp; <Box as="span" fontWeight={"bold"}>{product_sizes}</Box> &nbsp;<ChevronDownIcon/></Button>
+            <Flex align={"center"}>
+              <Box m="0 16px 0 0 " p="11px 0">
+                <Button
+                  fontSize={"12px"}
+                  fontWeight="light"
+                  border="1px solid #eaeaea"
+                  size={"sm"}
+                  p="5px 11px"
+                  bg={"white"}
+                  onClick={onOpen}
+                >
+                  SIZE:&nbsp;{" "}
+                  <Box as="span" fontWeight={"bold"}>
+                    {product_sizes}
+                  </Box>{" "}
+                  &nbsp;
+                  <ChevronDownIcon />
+                </Button>
 
                 <Modal isOpen={isOpen} onClose={onClose}>
                   <ModalOverlay />
-                  <ModalContent>
-                    <ModalHeader>Modal Title</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody></ModalBody>
+                  <ModalContent top="20%" w="10%">
+                    <ModalHeader
+                      textAlign={"center"}
+                      fontSize={"12px"}
+                      color="#333333"
+                    >
+                      SIZE CHART
+                    </ModalHeader>
 
-                    <ModalFooter>
-                      <Button colorScheme="blue" mr={3} onClick={onClose}>
-                        Close
-                      </Button>
-                      <Button variant="ghost">Secondary Action</Button>
-                    </ModalFooter>
+                    <ModalBody
+                      textAlign={"center"}
+                      display={"flex"}
+                      flexDirection="column"
+                    >
+                      <Box
+                        p="8px 0"
+                        _hover={{
+                          background: "#eaeaea",
+                          color: "#1D8802",
+                          cursor: "pointer",
+                        }}
+                      >
+                        S
+                      </Box>
+                      <Box
+                        p="8px 0"
+                        _hover={{
+                          background: "#eaeaea",
+                          color: "#1D8802",
+                          cursor: "pointer",
+                        }}
+                      >
+                        M
+                      </Box>
+                      <Box
+                        p="8px 0"
+                        _hover={{
+                          background: "#eaeaea",
+                          color: "#1D8802",
+                          cursor: "pointer",
+                        }}
+                      >
+                        L
+                      </Box>
+                      <Box
+                        p="8px 0"
+                        _hover={{
+                          background: "#eaeaea",
+                          color: "#1D8802",
+                          cursor: "pointer",
+                        }}
+                      >
+                        XL
+                      </Box>
+                      <Box
+                        p="8px 0"
+                        _hover={{
+                          background: "#eaeaea",
+                          color: "#1D8802",
+                          cursor: "pointer",
+                        }}
+                      >
+                        XXL
+                      </Box>
+                    </ModalBody>
                   </ModalContent>
                 </Modal>
               </Box>
-              <Box m="0 16px 0 0 " p="9px 0" >
+              {/* <Box m="0 16px 0 0 " p="9px 0" >
                 <Button fontSize={"12px"} border="1px solid #eaeaea" size={"sm"}  p="5px 11px" bg={"white"} onClick={onOpen}>Qty: &nbsp;<Box as="span" fontWeight={"bold"}>{quantity}</Box>&nbsp; <ChevronDownIcon/></Button>
 
                 <Modal isOpen={isOpen} onClose={onClose}>
                   <ModalOverlay />
                   <ModalContent>
-                    <ModalHeader>Modal Title</ModalHeader>
+                    <ModalHeader>QUANTITY</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody></ModalBody>
 
@@ -103,7 +226,7 @@ const Cartcard = (props: Icart_wishlistData) => {
                     </ModalFooter>
                   </ModalContent>
                 </Modal>
-              </Box>
+              </Box> */}
             </Flex>
           </Box>
           <Image
@@ -123,6 +246,7 @@ const Cartcard = (props: Icart_wishlistData) => {
           bg="#fff"
           p="18px 0"
           w="40%"
+          onClick={handleDelete}
         >
           Remove
         </Button>
@@ -132,6 +256,7 @@ const Cartcard = (props: Icart_wishlistData) => {
           w="60%"
           borderRadius="none"
           borderTop="2px solid #eaeaea"
+          onClick={handleMove}
         >
           Move to Wishlist
         </Button>

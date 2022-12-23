@@ -61,12 +61,24 @@ if(AllProductData.length===0){
         category: "T-Shirt",
         gender: "Men",
         page: 1,
+        sort:sort,
         dispatch,
       };
   getAllProducts(payload)
 }
+useEffect(()=>{
+  var payload = {
+    limit: 40,
+    category: "T-Shirt",
+    gender: "Men",
+    page: 1,
+    sort:sort,
+    dispatch,
+  };
+getAllProducts(payload)
+},[sort])
  
-
+console.log(sort)
 
   return (
     <div>
@@ -313,8 +325,8 @@ if(AllProductData.length===0){
             >
               <option value="">--Price--</option>
               {/* <option value="new">New</option> */}
-              <option value="high"> High to Low</option>
-              <option value="low"> Low to High</option>
+              <option value="desc"> High to Low</option>
+              <option value="asc"> Low to High</option>
             </Select>
           </Box>
           <SimpleGrid columns={3} gap="10px">

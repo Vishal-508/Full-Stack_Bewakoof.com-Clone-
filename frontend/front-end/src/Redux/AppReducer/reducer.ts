@@ -67,7 +67,7 @@ const reducer = (state: IstateProps = initialState, action: AppActions) => {
     case App_ActionType.GET_ADDRESS_SUCCESS:
       return {
         ...state,
-        wishlistData: action.payload,
+        addressData: action.payload,
         isloading: false,
         isError: false,
       };
@@ -132,6 +132,7 @@ export interface IaddressData {
 // Wishlist and Cart start
 export interface Icart_wishlistData {
     Pid:string;
+    _id?:any;
   id: number;
   all_offer_price: number;
   category: string;
