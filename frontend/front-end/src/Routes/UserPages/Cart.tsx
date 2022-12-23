@@ -63,6 +63,21 @@ const Cart = () => {
   const [flate, setFlate] = useState("");
   const [area, setArea] = useState("");
   const [landmark, setLandmark] = useState("");
+  const [totalMRP,setTotalMRP]=useState(0);
+  const [subtotalprice,setSubtotalprice]=useState(0);
+  const amounthandle=()=>{
+    var n=cartData.length;
+    let MRP=0;
+    let price=0;
+    for(var i=0;i<n;i++){
+      MRP+=Number(cartData[i].mrp);
+      price+=Number(cartData[i].price);
+    }
+    setTotalMRP(MRP);
+    setSubtotalprice(price);
+    
+  }
+  var discount=totalMRP-subtotalprice;
 
   useEffect(() => {
     const payload = {
@@ -70,7 +85,7 @@ const Cart = () => {
     };
     getCartProduct(payload);
     getAddressData(payload).then((res)=>console.log(res)).catch((err)=>console.log(err))
-
+amounthandle()
   }, []);
   const addressData: IaddressData[] = useSelector(
     (state: any) => state.AppReducer.addressData
@@ -96,6 +111,7 @@ const Cart = () => {
       addData:addData,
       dispatch
     }
+
     postAddressData(payload).then((res)=>navigate("/PaymentPage")).catch((err)=>alert("fill wright address"))
   };
 
@@ -212,7 +228,7 @@ const gotopayment=()=>{
                     <Box p="15px 20px 0px" fontSize={"12px"}>
                       <Flex align="center" justify="space-between" pb="10px">
                         <Box as="p">Total MRP (Incl. of Taxes)</Box>
-                        <Box as="p">₹ 3447</Box>
+                        <Box as="p">₹ {totalMRP}</Box>
                       </Flex>
                       <Flex align="center" justify="space-between" pb="10px">
                         <Box as="p">Shipping Charges</Box>
@@ -222,11 +238,11 @@ const gotopayment=()=>{
                       </Flex>
                       <Flex align="center" justify="space-between" pb="10px">
                         <Box as="p">Bag Discount</Box>
-                        <Box as="p">-₹ 1700</Box>
+                        <Box as="p">-₹ {discount}</Box>
                       </Flex>
                       <Flex align="center" justify="space-between" pb="10px">
                         <Box as="p">Subtotal</Box>
-                        <Box as="p">₹ 1747</Box>
+                        <Box as="p">₹ {subtotalprice}</Box>
                       </Flex>
                       <Box
                         p="6px 10px"
@@ -237,7 +253,7 @@ const gotopayment=()=>{
                         fontSize="12px"
                         color="#1D8802"
                       >
-                        You are saving ₹ 1700 on this order
+                        You are saving ₹ {discount} on this order
                       </Box>
                       <Flex
                         justify="space-between"
@@ -249,7 +265,7 @@ const gotopayment=()=>{
                         <Box>
                           <Box as="span">Total</Box>
                           <Box as="p" fontSize={"16px"}>
-                            ₹ 1747
+                            ₹ {subtotalprice}
                           </Box>
                         </Box>
                         <Box>

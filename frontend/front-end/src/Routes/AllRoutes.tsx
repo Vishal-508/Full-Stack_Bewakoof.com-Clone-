@@ -13,6 +13,7 @@ import OrderPage from './UserPages/OrderPage'
 import PaymentPage from './UserPages/PaymentPage'
 import ProductsPage from './UserPages/ProductsPage'
 import SingleProductPage from './UserPages/SingleProductPage'
+import Thankyou from './UserPages/Thankyou'
 import UserLogin from './UserPages/UserLogin'
 import UserSignUp from './UserPages/UserSignUp'
 import WishList from './UserPages/WishList'
@@ -24,7 +25,9 @@ const AllRoutes = () => {
     <Route path='/UserSignUp' element={<UserSignUp/>} />
     <Route path='/UserLogin' element={<UserLogin/>} />
     <Route path='/ProductsPage' element={<ProductsPage/>} />
+    <Route path='/OrderPlaced' element={<Thankyou/>} />
     <Route path='/SingleProductPage/:id' element={<SingleProductPage/>} />
+
 
     {/* private routes below */}
     <Route path='/CartPage' element={<PrivateRoute><Cart/></PrivateRoute>} />
