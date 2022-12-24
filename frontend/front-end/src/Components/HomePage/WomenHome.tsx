@@ -10,10 +10,14 @@ const WomenHome = () => {
   const dispatch = useDispatch();
   const handleClick = (category: string) => {
     var payload = {
-      limit: 40,
-      category: category,
-      gender: "Women",
-      page: 1,
+      params:{
+
+        limit: 40,
+        category: category,
+        gender: "Women",
+        page: 1,
+        sort:""
+      },
       dispatch,
     };
 

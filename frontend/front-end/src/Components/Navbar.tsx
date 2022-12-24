@@ -24,7 +24,7 @@ import {
   Button
 } from "@chakra-ui/react";
 import loginIcon from "./user.png"
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 // import { useDispatch } from "react-redux";
 import { getAllProducts } from "../Redux/AppReducer/action_creaters";
@@ -36,9 +36,11 @@ const Navbar = () => {
   const AllProductData: IproductData[] = useSelector(
     (state: any) => state.AppReducer.AllProductData
   );
+  const [searchParams,setSearchParams]=useSearchParams(); 
   const token:string = useSelector((state: any) => state.AuthReducer.token);
   const username:string = useSelector((state: any) => state.AuthReducer.username);
   const isAuth: boolean = useSelector((state: any) => state.AuthReducer.isAuth);
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // var payload = {
@@ -52,17 +54,33 @@ const Navbar = () => {
   // getAllProducts(payload);
   // console.log(AllProductData);
   const handleClick = (gender:string) => {
-     var payload = {
-    limit: 40,
-    category: "T-Shirt",
-    gender: gender,
-    page: 1,
-    dispatch,
-  };
+  //    var payload = {
+  //     params:{
+  //       limit: 40,
+  //       category: "T-Shirt",
+  //       gender: gender,
+  //       page: 1,
+  //       sort:""
+  //     },
+  //   dispatch,
+  // };
+  // if (gender ) {
+  //   let params: any= {};
+    
+  //   gender && (params.gender=gender);
+  //   setSearchParams(params);
 
-  getAllProducts(payload);
-  console.log(AllProductData);
-    navigate("/ProductsPage");
+  // }
+
+  // getAllProducts(payload);
+  // console.log(AllProductData);
+
+localStorage.setItem("gender",gender);
+
+ <Navigate to="/ProductPage" state={
+ { data: gender}
+ } /> 
+    // navigate("/ProductsPage");
   };
  
   const handleLogOut=()=>{
@@ -70,7 +88,7 @@ const Navbar = () => {
     localStorage.setItem("token",empty);
     localStorage.setItem("UName",empty);
     navigate("/")
-   window.location.reload()
+  //  window.location.reload()
   }
 
 // useEffect(()=>{

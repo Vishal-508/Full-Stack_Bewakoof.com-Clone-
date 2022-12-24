@@ -9,15 +9,21 @@ const MensHome = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleClick = (category: string) => {
-    var payload = {
-      limit: 40,
-      category: category,
-      gender: "Men",
-      page: 1,
-      dispatch,
-    };
+    // var payload = {
+    //   params:{
 
-    getAllProducts(payload);
+    //     limit: 40,
+    //     category: category,
+    //     gender: "Men",
+    //     page: 1,
+    //     sort:""
+    //   },
+    //   dispatch,
+    // };
+
+    // getAllProducts(payload);
+
+    localStorage.setItem("category",category);
     navigate("/ProductsPage");
   };
   interface ICategoryProps{

@@ -18,30 +18,61 @@ import {
   AccordionIcon,
   AccordionPanel,
   Input,
+  Checkbox,
 } from "@chakra-ui/react";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { IproductData } from "../../Redux/AppReducer/reducer";
 import ProductCard from "../../Components/ProductsPage/ProductCard";
 import { relative } from "path";
 import { getAllProducts } from "../../Redux/AppReducer/action_creaters";
 import { useDispatch } from "react-redux";
+import { useLocation, useSearchParams } from "react-router-dom";
+
+
+
 
 const ProductsPage = () => {
-  // const [searchParams,setSearch]
+  
+  const [searchParams,setSearchParams]=useSearchParams(); 
+  const initialCategoryFilters=searchParams.getAll("category");
+  const initialGenderFilters=searchParams.get("gender");
   const AllProductData: IproductData[] = useSelector(
     (state: any) => state.AppReducer.AllProductData
   );
-  const isLoading: boolean = useSelector(
+  const isLoading: boolean = useSelector( 
     (state: any) => state.AppReducer.isLoading
   );
-  const token:string = useSelector(
-    (state: any) => state.AuthReducer.token)
+  const token: string = useSelector((state: any) => state.AuthReducer.token);
 
-    // console.log(token)
-  // const [data, setData] = useState<IproductData[]>([]);
-  const dispatch =useDispatch();
+  const dispatch = useDispatch();
+
   const [sort, setSort] = useState("");
- console.log(AllProductData)
+
+  const [category, setCategory] = useState<string[]>(initialCategoryFilters  || []);
+
+ const [gender,setGender]=useState(initialGenderFilters || "");
+ const[count,setCount]=useState(0);
+ 
+
+const handleFilterCheckbox=(e:React.ChangeEvent<HTMLInputElement>)=>{
+
+  const newCategories: string[] =[...category];
+
+  if(newCategories.includes(e.target.value)){
+
+    newCategories.splice(newCategories.indexOf(e.target.value),1)
+  }else{
+    newCategories.push(e.target.value)
+  }
+  setCategory(newCategories)
+}
+const location=useLocation();
+// console.log(category)
+
+
+
+
+  // console.log(AllProductData);
   // useEffect(()=>{
   //   var payload = {
   //     limit: 40,
@@ -50,35 +81,90 @@ const ProductsPage = () => {
   //     page: 1,
   //     dispatch,
   //   };
-   
+
   //     getAllProducts(payload).then((res)=>console.log(AllProductData))
-    
+
   //   // setData(AllProductData);
   // },[])
-if(AllProductData.length===0){
-  var payload = {
-        limit: 40,
-        category: "T-Shirt",
-        gender: "Men",
-        page: 1,
-        sort:sort,
-        dispatch,
-      };
-  getAllProducts(payload)
-}
+  // if (AllProductData.length === 0) {
+  //   var payload = {
+  //     limit: 40,
+  //     category: category,
+  //     gender: "Men",
+  //     page: 1,
+  //     sort: sort,
+  //     dispatch,
+  //   };
+  //   getAllProducts(payload);
+  // }
+  
+  useEffect(() => {
+   
+    if (category) {
+      let params: any= {};
+      category && (params.category = category);
+      setSearchParams(params);
+
+    }
+
+  }, [category,setSearchParams]);
+
+  useEffect(() => {
+   
+    if (gender) {
+      let params: any= {};
+      gender && (params.gender = gender);
+      setSearchParams(params);
+
+    }
+
+  }, [category,setSearchParams]);
+
+
 useEffect(()=>{
   var payload = {
-    limit: 40,
-    category: "T-Shirt",
-    gender: "Men",
-    page: 1,
-    sort:sort,
-    dispatch,
+    params:{
+
+      limit: 40,
+      category: category,
+      gender: gender,
+      page: 1,
+      sort: sort
+    },
+  
+    dispatch
   };
-getAllProducts(payload)
-},[sort])
- 
-console.log(sort)
+  getAllProducts(payload)
+},[])
+
+useEffect(()=>{
+  var payload = {
+    params:{
+
+      limit: 40,
+      category: category,
+      gender: gender,
+      page: 1,
+      sort: sort
+    },
+  
+    dispatch
+  };
+  
+
+    getAllProducts(payload)
+    // .then((res)=>{setCount(prev=>prev+1); console.log(AllProductData)});
+  
+
+},[dispatch,category,gender,location.search])
+
+
+
+
+
+
+
+
 
   return (
     <div>
@@ -103,9 +189,7 @@ console.log(sort)
           </BreadcrumbItem>
         </Breadcrumb>
       </Box>
-      <Box>
-   
-      </Box>
+      <Box></Box>
       <Box
         w="1170px"
         m="auto"
@@ -133,10 +217,10 @@ console.log(sort)
             >
               FILTERS
             </Box>
-            <Accordion allowToggle mr="10px"  >
-              <AccordionItem  w="94%">
+            <Accordion allowToggle mr="10px">
+              <AccordionItem w="94%">
                 <h2>
-                  <AccordionButton  p="8px 0px 8px 0px" >
+                  <AccordionButton p="8px 0px 8px 0px">
                     <Box as="span" fontSize="14px" flex="1" textAlign="left">
                       Category
                     </Box>
@@ -144,9 +228,27 @@ console.log(sort)
                   </AccordionButton>
                 </h2>
                 <AccordionPanel pb={4}>
-                  <div>
-                    <input type="checkbox" value="" />
-                  </div>
+                  <Flex fontSize={"14px"} direction={"column"}>
+                
+                    <Checkbox _hover={{background:"#F7F7F7"}} size="sm" isChecked={category.includes("T-Shirt")} onChange={handleFilterCheckbox} colorScheme="yellow" value="T-Shirt" >
+                      T-Shirt
+                    </Checkbox>
+                    <Checkbox isChecked={category.includes("Shirt")} _hover={{background:"#F7F7F7"}} size="sm" onChange={handleFilterCheckbox} colorScheme="yellow" value="Shirt" >
+                      Shirt
+                    </Checkbox>
+                    <Checkbox isChecked={category.includes("Shorts")} _hover={{background:"#F7F7F7"}} size="sm" onChange={handleFilterCheckbox} colorScheme="yellow" value="Shorts" >
+                      Shorts
+                    </Checkbox>
+                    <Checkbox isChecked={category.includes("Sweater")} _hover={{background:"#F7F7F7"}} size="sm" onChange={handleFilterCheckbox} colorScheme="yellow" value="Sweater" >
+                      Sweater
+                    </Checkbox>
+                    <Checkbox isChecked={category.includes("Hoodies")} _hover={{background:"#F7F7F7"}} size="sm" onChange={handleFilterCheckbox} colorScheme="yellow" value="Hoodies" >
+                      Hoodies
+                    </Checkbox>
+                    <Checkbox isChecked={category.includes("Jeans")} _hover={{background:"#F7F7F7"}} size="sm" onChange={handleFilterCheckbox} colorScheme="yellow" value="Jeans" >
+                      Jeans
+                    </Checkbox>
+                  </Flex>
                 </AccordionPanel>
               </AccordionItem>
 
@@ -154,7 +256,7 @@ console.log(sort)
                 <h2>
                   <AccordionButton p="8px 0px 8px 0px">
                     <Box as="span" fontSize="14px" flex="1" textAlign="left">
-                     Brand
+                      Brand
                     </Box>
                     <AccordionIcon />
                   </AccordionButton>
@@ -182,7 +284,7 @@ console.log(sort)
                   laboris nisi ut aliquip ex ea commodo consequat.
                 </AccordionPanel>
               </AccordionItem>
-              <AccordionItem w="94%">
+              {/* <AccordionItem w="94%">
                 <h2>
                   <AccordionButton p="8px 0px 8px 0px">
                     <Box as="span" fontSize="14px" flex="1" textAlign="left">
@@ -230,7 +332,7 @@ console.log(sort)
                   laboris nisi ut aliquip ex ea commodo consequat.
                 </AccordionPanel>
               </AccordionItem>
-              <AccordionItem w="94%" >
+              <AccordionItem w="94%">
                 <h2>
                   <AccordionButton p="8px 0px 8px 0px">
                     <Box as="span" fontSize="14px" flex="1" textAlign="left">
@@ -250,7 +352,7 @@ console.log(sort)
                 <h2>
                   <AccordionButton p="8px 0px 8px 0px">
                     <Box as="span" fontSize="14px" flex="1" textAlign="left">
-                     Sizes
+                      Sizes
                     </Box>
                     <AccordionIcon />
                   </AccordionButton>
@@ -261,46 +363,10 @@ console.log(sort)
                   Ut enim ad minim veniam, quis nostrud exercitation ullamco
                   laboris nisi ut aliquip ex ea commodo consequat.
                 </AccordionPanel>
-              </AccordionItem>
+              </AccordionItem> */}
             </Accordion>
 
-            {/* <Stack spacing={3} w="100%">
-              <Select
-                variant="flushed"
-                color="#333333"
-                placeholder="Category"
-              ></Select>
-              <Select
-                variant="flushed"
-                color="#333333"
-                placeholder="Sizes"
-              ></Select>
-              <Select
-                variant="flushed"
-                color="#333333"
-                placeholder="Brand"
-              ></Select>
-              <Select
-                variant="flushed"
-                color="#333333"
-                placeholder="Design"
-              ></Select>
-              <Select
-                variant="flushed"
-                color="#333333"
-                placeholder="Fit"
-              ></Select>
-              <Select
-                variant="flushed"
-                color="#333333"
-                placeholder="Rating"
-              ></Select>
-              <Select
-                variant="flushed"
-                color="#333333"
-                placeholder="Discount"
-              ></Select>
-            </Stack> */}
+           
           </Flex>
         </Box>
         <Box w="877.5px">
@@ -330,9 +396,10 @@ console.log(sort)
             </Select>
           </Box>
           <SimpleGrid columns={3} gap="10px">
-            {AllProductData.length > 0 && AllProductData?.map((item) => {
-              return <ProductCard key={item.id} {...item} />;
-            })}
+            {AllProductData.length > 0 &&
+              AllProductData?.map((item) => {
+                return <ProductCard key={item.id} {...item} />;
+              })}
           </SimpleGrid>
         </Box>
       </Box>
@@ -360,6 +427,5 @@ export default ProductsPage;
 }
 // https://images.bewakoof.com/web/bwkf-loading-anim-common.gif
 
-
-  // if(isLoading) {
-  //   return <Center w="100%" h="100%" > <Image   w="250px" src='https://images.bewakoof.com/web/bwkf-loading-anim-common.gif' /></Center>}
+// if(isLoading) {
+//   return <Center w="100%" h="100%" > <Image   w="250px" src='https://images.bewakoof.com/web/bwkf-loading-anim-common.gif' /></Center>}

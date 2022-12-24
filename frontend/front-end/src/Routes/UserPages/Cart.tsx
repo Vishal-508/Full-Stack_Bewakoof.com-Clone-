@@ -65,6 +65,7 @@ const Cart = () => {
   const [landmark, setLandmark] = useState("");
   const [totalMRP,setTotalMRP]=useState(0);
   const [subtotalprice,setSubtotalprice]=useState(0);
+  const [count,setCount]=useState(0);
   const amounthandle=()=>{
     var n=cartData.length;
     let MRP=0;
@@ -84,8 +85,10 @@ const Cart = () => {
       dispatch,
     };
     getCartProduct(payload);
-    getAddressData(payload).then((res)=>console.log(res)).catch((err)=>console.log(err))
-amounthandle()
+    getAddressData(payload).then((res)=>console.log(res)).catch((err)=>console.log(err));
+    if(cartData.length > 0){
+      amounthandle()
+    }
   }, []);
   const addressData: IaddressData[] = useSelector(
     (state: any) => state.AppReducer.addressData
@@ -114,6 +117,9 @@ amounthandle()
 
     postAddressData(payload).then((res)=>navigate("/PaymentPage")).catch((err)=>alert("fill wright address"))
   };
+const handleCount=()=>{
+    setCount((prev)=>prev+1);
+}
 
 const gotopayment=()=>{
   navigate("/PaymentPage")

@@ -57,6 +57,7 @@ const Cartcard = (props: Icart_wishlistData) => {
     const load = {
       dispatch,
     };
+  
     DeleteCartProduct(payload).then((res) => getCartProduct(load));
   };
 
@@ -91,6 +92,7 @@ const Cartcard = (props: Icart_wishlistData) => {
       const oad = {
         dispatch,
       };
+   
     postWishlistProduct(payload).then((res)=>DeleteCartProduct(load)).then((res) => getCartProduct(oad))
   };
 

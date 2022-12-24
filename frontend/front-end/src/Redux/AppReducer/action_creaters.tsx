@@ -4,30 +4,53 @@ import { AppActions, IgetProductData } from "./action";
 import { App_ActionType } from "./action_types";
 import { IaddressData, Icart_wishlistData } from "./reducer";
 
-interface IsearchParamsProps {
-  limit?: number;
-  page?: number;
-  sort?: string;
-  category?: string;
-  gender?: string;
-  dispatch: Dispatch<AppActions>;
-}
+// interface IsearchParamsProps {
+//   limit?: number;
+//   page?: number;
+//   sort?: string;
+//   category?: string[] | string;
+//   gender?: string;
+//   dispatch: Dispatch<AppActions>;
+// }
 // payload:IsearchParamsPropsr
 
 //  GET ALL PRODUCT DATA
 
+interface Iparams{
+  limit ?:number,
+  category ?:string[] | string,
+  gender:string ,
+  sort:string,
+  page:number
+}
+interface IsearchParamsProps{
+  params:Iparams,
+  dispatch: Dispatch<AppActions>;
+}
 export const getAllProducts = (payload: IsearchParamsProps) => {
-  const { limit, page = 1, sort, category, gender, dispatch } = payload;
+  const { params,  dispatch } = payload;
+  const{category,page,gender,sort,limit}=params;
   dispatch({ type: App_ActionType.LOADING });
   return axios
     .get(
-      `https://smiling-jade-fly.cyclic.app/allproducts?limit=${limit}&category=${category}&page=${page}&gender=${gender}&sort=${sort}`
+      `https://smiling-jade-fly.cyclic.app/allproducts?limit=${limit}&page=${page}&sort=${sort}`,{params:{category:category, gender:gender}}
     )
     .then((res) =>
       dispatch({ type: App_ActionType.GET_PRODUCT_SUCCESS, payload: res.data })
     )
     .catch((err) => dispatch({ type: App_ActionType.FAILURE }));
 };
+// export const getAllProducts = (payload: IsearchParamsProps) => {
+//   const { params, dispatch } = payload;
+//   dispatch({ type: App_ActionType.LOADING });
+//   return axios
+//     .get("https://smiling-jade-fly.cyclic.app/allproducts/singleProduct",{params})
+//     .then((res) =>
+//       dispatch({ type: App_ActionType.GET_PRODUCT_SUCCESS, payload: res.data })
+//     )
+//     .catch((err) => dispatch({ type: App_ActionType.FAILURE }));
+// };
+
 
 
 // GET SINGLE PRODUCT DATA

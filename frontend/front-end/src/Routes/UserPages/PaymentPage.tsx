@@ -140,26 +140,26 @@ const PaymentPage = () => {
                     <form onSubmit={handleDebitDetails}>
                       <Input
                         mb="18px"
-                        required
+                        required={true}
                         variant="flushed"
                         placeholder="Card Number"
                       />
                       <Flex justify="space-between" mb="18px">
                         <Input
-                          required
+                          required={true}
                           w="50%"
                           variant="flushed"
                           placeholder="Valid Through(MM/YY)"
                         />
                         <Input
-                          required
+                          required={true}
                           w="30%"
                           variant="flushed"
                           placeholder="CVV"
                         />
                       </Flex>
                       <Input
-                        required
+                        required={true}
                         mb="18px"
                         variant="flushed"
                         placeholder="Name On Card"
@@ -187,6 +187,7 @@ const PaymentPage = () => {
                         _hover={{ background: "#42B2A2" }}
                         borderRadius="5px"
                         cursor={"pointer"}
+                        // disabled=
                         value={`Pay ₹ ${subtotalprice} `}
                       />
                     </form>
