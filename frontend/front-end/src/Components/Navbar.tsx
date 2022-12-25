@@ -86,7 +86,7 @@ localStorage.setItem("gender",gender);
     localStorage.setItem("token",empty);
     localStorage.setItem("UName",empty);
     navigate("/")
-  //  window.location.reload()
+   window.location.reload()
   }
 
 
