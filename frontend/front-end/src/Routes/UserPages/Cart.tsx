@@ -37,7 +37,10 @@ import {
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { IgetProductData } from "../../Redux/AppReducer/action";
-import { getAddressData, getCartProduct } from "../../Redux/AppReducer/action_creaters";
+import {
+  getAddressData,
+  getCartProduct,
+} from "../../Redux/AppReducer/action_creaters";
 import { useDispatch } from "react-redux";
 import Cartcard from "../../Components/CartPage/Cartcard";
 import {
@@ -47,14 +50,14 @@ import {
 import { postAddressData } from "../../Redux/AppReducer/action_creaters";
 const Cart = () => {
   const dispatch = useDispatch();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<any>();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const cartData: Icart_wishlistData[] = useSelector(
     (state: any) => state.AppReducer.cartData
   );
-  const [value, setValue] = React.useState('home')
+  const [value, setValue] = React.useState("home");
   const [userName, setUserName] = useState("");
   const [number, setNumber] = useState<any>(0);
   const [pincode, setPincode] = useState<any>(0);
@@ -63,31 +66,32 @@ const Cart = () => {
   const [flate, setFlate] = useState("");
   const [area, setArea] = useState("");
   const [landmark, setLandmark] = useState("");
-  const [totalMRP,setTotalMRP]=useState(0);
-  const [subtotalprice,setSubtotalprice]=useState(0);
-  const [count,setCount]=useState(0);
-  const amounthandle=()=>{
-    var n=cartData.length;
-    let MRP=0;
-    let price=0;
-    for(var i=0;i<n;i++){
-      MRP+=Number(cartData[i].mrp);
-      price+=Number(cartData[i].price);
+  const [count, setCount] = useState(0);
+  const [totalMRP, setTotalMRP] = useState(0);
+  const [subtotalprice, setSubtotalprice] = useState(0);
+  const amounthandle = () => {
+    var n = cartData.length;
+    let MRP = 0;
+    let price = 0;
+    for (var i = 0; i < n; i++) {
+      MRP += Number(cartData[i].mrp);
+      price += Number(cartData[i].price);
     }
     setTotalMRP(MRP);
     setSubtotalprice(price);
-    
-  }
-  var discount=totalMRP-subtotalprice;
+  };
+  var discount = totalMRP - subtotalprice;
 
   useEffect(() => {
     const payload = {
       dispatch,
     };
     getCartProduct(payload);
-    getAddressData(payload).then((res)=>console.log(res)).catch((err)=>console.log(err));
-    if(cartData.length > 0){
-      amounthandle()
+    getAddressData(payload)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+    if (cartData.length > 0) {
+      amounthandle();
     }
   }, []);
   const addressData: IaddressData[] = useSelector(
@@ -98,32 +102,33 @@ const Cart = () => {
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    let addData={
-      pin_code:pincode,
-      city:city,
-      state:state,
-      flat_street_name:flate,
-      area_locality:area,
-      landmark:landmark,
-      address_as:value,
-      name:userName,
-      number:number,
+    let addData = {
+      pin_code: pincode,
+      city: city,
+      state: state,
+      flat_street_name: flate,
+      area_locality: area,
+      landmark: landmark,
+      address_as: value,
+      name: userName,
+      number: number,
+    };
+    let payload = {
+      addData: addData,
+      dispatch,
+    };
 
-    }
-    let payload={
-      addData:addData,
-      dispatch
-    }
-
-    postAddressData(payload).then((res)=>navigate("/PaymentPage")).catch((err)=>alert("fill wright address"))
+    postAddressData(payload)
+      .then((res) => navigate("/PaymentPage"))
+      .catch((err) => alert("fill wright address"));
   };
-const handleCount=()=>{
-    setCount((prev)=>prev+1);
-}
+  const handleCount = () => {
+    setCount((prev) => prev + 1);
+  };
 
-const gotopayment=()=>{
-  navigate("/PaymentPage")
-}
+  const gotopayment = () => {
+    navigate("/PaymentPage");
+  };
 
   if (cartData.length > 0) {
     return (
@@ -276,7 +281,8 @@ const gotopayment=()=>{
                         </Box>
                         <Box>
                           {" "}
-                          {addressData.length === 0 ? <Box>
+                          {addressData.length === 0 ? (
+                            <Box>
                               {" "}
                               <Button
                                 w="280px"
@@ -430,7 +436,9 @@ const gotopayment=()=>{
                                   </form>
                                 </ModalContent>
                               </Modal>
-                            </Box> : <Button
+                            </Box>
+                          ) : (
+                            <Button
                               w="280px"
                               color="white"
                               p="15px"
@@ -438,10 +446,11 @@ const gotopayment=()=>{
                               fontSize={"16px"}
                               borderRadius="5px"
                               onClick={gotopayment}
+                              _hover={{ background: "#42B2A2" }}
                             >
                               CONTINUE{" "}
                             </Button>
-                          }
+                          )}
                         </Box>
                         {/* <Button
                         w="280px"

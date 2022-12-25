@@ -143,6 +143,8 @@ const PaymentPage = () => {
                         required={true}
                         variant="flushed"
                         placeholder="Card Number"
+                        maxLength={16}
+                        type="number"
                       />
                       <Flex justify="space-between" mb="18px">
                         <Input
@@ -150,12 +152,16 @@ const PaymentPage = () => {
                           w="50%"
                           variant="flushed"
                           placeholder="Valid Through(MM/YY)"
+                          maxLength={5}
+                          type="number"
                         />
                         <Input
                           required={true}
                           w="30%"
                           variant="flushed"
                           placeholder="CVV"
+                          maxLength={3}
+                          type="password"
                         />
                       </Flex>
                       <Input
@@ -163,6 +169,7 @@ const PaymentPage = () => {
                         mb="18px"
                         variant="flushed"
                         placeholder="Name On Card"
+
                       />
                       <Checkbox
                         m="20px 0 0"
@@ -219,7 +226,7 @@ const PaymentPage = () => {
         </Box>
         <Box w="40%" pl="20px">
           {" "}
-          <Link to="">
+          <Link to="/AddressPage">
             <Box textAlign={"left"}>
               <Box as="span" color={"#0F0F0F"} fontSize={"12px"}>
                 Delivering order to{" "}

@@ -77,10 +77,8 @@ const Navbar = () => {
 
 localStorage.setItem("gender",gender);
 
- <Navigate to="/ProductPage" state={
- { data: gender}
- } /> 
-    // navigate("/ProductsPage");
+
+    navigate("/ProductsPage");
   };
  
   const handleLogOut=()=>{
@@ -91,9 +89,6 @@ localStorage.setItem("gender",gender);
   //  window.location.reload()
   }
 
-// useEffect(()=>{
-//   setCount(0)
-// },[token,count])
 
   return (
     <Box bg="#FFF">

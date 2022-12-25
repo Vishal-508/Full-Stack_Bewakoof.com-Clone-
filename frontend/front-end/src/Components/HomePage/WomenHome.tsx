@@ -9,19 +9,23 @@ const WomenHome = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleClick = (category: string) => {
-    var payload = {
-      params:{
+    // var payload = {
+    //   params:{
 
-        limit: 40,
-        category: category,
-        gender: "Women",
-        page: 1,
-        sort:""
-      },
-      dispatch,
-    };
+    //     limit: 40,
+    //     category: category,
+    //     gender: "Women",
+    //     page: 1,
+    //     sort:""
+    //   },
+    //   dispatch,
+    // };
 
-    getAllProducts(payload);
+    // getAllProducts(payload);
+
+    let gender= "Women";
+    localStorage.setItem("gender",gender);
+    localStorage.setItem("category",category);
     navigate("/ProductsPage");
   };
   interface ICategoryProps{

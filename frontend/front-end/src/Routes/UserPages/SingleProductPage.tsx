@@ -51,6 +51,7 @@ const SingleProductPage = () => {
 
 const handleSize=(ele:string)=>{
 setSize(ele);
+alert("Size is selected")
 
 }
 console.log(size);
@@ -87,6 +88,7 @@ if(size.length===0){
   postCartProduct(payload)
   .then((res) => console.log(res))
   .catch((err) => console.log(err));
+  alert("Product is added to cart")
 }
     
 
@@ -141,7 +143,7 @@ if(size.length===0){
       postWishlistProduct(payload)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
-      alert("product is added into wishlist!")
+      alert("product is added to wishlist!")
     }
 
   }
@@ -153,9 +155,10 @@ if(size.length===0){
       <Box>
         <Breadcrumb
           fontSize="12px"
-          w="1170px"
+          // w="1170px"
+          w="61.5%"
           p="10px 10px"
-          m="auto"
+          m=" 10px auto"
           textAlign="left"
         >
           <BreadcrumbItem>
@@ -165,10 +168,7 @@ if(size.length===0){
             {/* <BreadcrumbLink href="/women">women</BreadcrumbLink> */}
           </BreadcrumbItem>
           <BreadcrumbItem isCurrentPage>
-            {/* <BreadcrumbLink href={`/singleproduct/:${id}`}> */}
-            {/* {singlePageData.name} */}
-            {/* {name} */}
-            {/* </BreadcrumbLink> */}
+            <BreadcrumbLink _hover={{textDecoration:"none"}} href="#">{sdata.name}</BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
       </Box>
@@ -226,7 +226,7 @@ if(size.length===0){
             </Flex>
             <Flex w="470px" m="0 auto 20px auto">
               <Text fontSize="11px" fontWeight="bold" p="3px 8px" bg="#F7F7F7">
-                ₹{sdata.member_price}
+                ₹{sdata.member_price} for TriBe Members
                 {/* {singlePageData.tribe_text} */}
                 {/* ₹319  For TriBe Members */}
               </Text>
@@ -300,6 +300,7 @@ if(size.length===0){
                   borderRadius="5px"
                   bg="#FFD84D"
                   fontSize="14px"
+                  _hover={{background:"#FDD835"}}
                 >
                   ADD TO BAG
                 </Button>
@@ -313,6 +314,7 @@ if(size.length===0){
                   bg="#ffffff"
                   fontSize="14px"
                   onClick={handleMove}
+                  _hover={{background:"white"}}
                 >
                   WISHLIST
                 </Button>

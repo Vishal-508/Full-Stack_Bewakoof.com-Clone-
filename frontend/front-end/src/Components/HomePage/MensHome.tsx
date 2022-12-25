@@ -22,7 +22,8 @@ const MensHome = () => {
     // };
 
     // getAllProducts(payload);
-
+    let gender= "Men";
+    localStorage.setItem("gender",gender);
     localStorage.setItem("category",category);
     navigate("/ProductsPage");
   };

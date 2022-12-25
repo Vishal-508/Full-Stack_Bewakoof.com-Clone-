@@ -31,30 +31,38 @@ import { useLocation, useSearchParams } from "react-router-dom";
 
 
 
+
 const ProductsPage = () => {
   
   const [searchParams,setSearchParams]=useSearchParams(); 
   const initialCategoryFilters=searchParams.getAll("category");
-  const initialGenderFilters=searchParams.get("gender");
+  const initialGenderFilters=searchParams.getAll("gender");
+  const initialsort=searchParams.get("sort");
   const AllProductData: IproductData[] = useSelector(
     (state: any) => state.AppReducer.AllProductData
   );
+ 
   const isLoading: boolean = useSelector( 
     (state: any) => state.AppReducer.isLoading
   );
   const token: string = useSelector((state: any) => state.AuthReducer.token);
 
   const dispatch = useDispatch();
+  const location=useLocation();
 
-  const [sort, setSort] = useState("");
+  const [sort, setSort] = useState(initialsort || "");
+// const diffcat=localStorage.getItem("category");
+  const [category, setCategory] = useState<string[]>(initialCategoryFilters || []);
 
-  const [category, setCategory] = useState<string[]>(initialCategoryFilters  || []);
-
- const [gender,setGender]=useState(initialGenderFilters || "");
+//  const [gender,setGender]=useState<string | null>(initialGenderFilters[0] || "");
+const gender=localStorage.getItem("gender")
  const[count,setCount]=useState(0);
- 
+//  console.log(AllProductData)
+
 
 const handleFilterCheckbox=(e:React.ChangeEvent<HTMLInputElement>)=>{
+ 
+ 
 
   const newCategories: string[] =[...category];
 
@@ -66,59 +74,26 @@ const handleFilterCheckbox=(e:React.ChangeEvent<HTMLInputElement>)=>{
   }
   setCategory(newCategories)
 }
-const location=useLocation();
-// console.log(category)
 
 
+// const newCategories:string[]=[];
+// let localCategory=localStorage.getItem("category")
+// if(localCategory){
+//   newCategories.push(localCategory);
+// }
 
-
-  // console.log(AllProductData);
-  // useEffect(()=>{
-  //   var payload = {
-  //     limit: 40,
-  //     category: "T-Shirt",
-  //     gender: "Men",
-  //     page: 1,
-  //     dispatch,
-  //   };
-
-  //     getAllProducts(payload).then((res)=>console.log(AllProductData))
-
-  //   // setData(AllProductData);
-  // },[])
-  // if (AllProductData.length === 0) {
-  //   var payload = {
-  //     limit: 40,
-  //     category: category,
-  //     gender: "Men",
-  //     page: 1,
-  //     sort: sort,
-  //     dispatch,
-  //   };
-  //   getAllProducts(payload);
-  // }
-  
-  useEffect(() => {
+useEffect(() => {
    
-    if (category) {
-      let params: any= {};
-      category && (params.category = category);
-      setSearchParams(params);
+  if (category && gender ) {
+    let params: any= {};
+    category && (params.category = category);
+    gender && (params.gender = gender);
+   sort && (params.sort=sort);
+    setSearchParams(params);
 
-    }
-
-  }, [category,setSearchParams]);
-
-  useEffect(() => {
-   
-    if (gender) {
-      let params: any= {};
-      gender && (params.gender = gender);
-      setSearchParams(params);
-
-    }
-
-  }, [category,setSearchParams]);
+  }
+  console.log("95 line no. use effect is runed")
+}, [sort, category,setSearchParams]);
 
 
 useEffect(()=>{
@@ -127,36 +102,45 @@ useEffect(()=>{
 
       limit: 40,
       category: category,
-      gender: gender,
+      gender: gender ,
       page: 1,
       sort: sort
     },
   
     dispatch
   };
-  getAllProducts(payload)
-},[])
-
-useEffect(()=>{
-  var payload = {
-    params:{
-
-      limit: 40,
-      category: category,
-      gender: gender,
-      page: 1,
-      sort: sort
-    },
+ 
+  getAllProducts(payload).then((res)=>console.log("113 line no. use effect is runed"));
   
-    dispatch
-  };
+},[location.search,sort])
+
+
+
+
   
 
-    getAllProducts(payload)
-    // .then((res)=>{setCount(prev=>prev+1); console.log(AllProductData)});
+
+
+// useEffect(()=>{
+//   var payload = {
+//     params:{
+
+//       limit: 40,
+//       category: category,
+//       gender: gender,
+//       page: 1,
+//       sort: sort
+//     },
+  
+//     dispatch
+//   };
   
 
-},[dispatch,category,gender,location.search])
+//     getAllProducts(payload)
+//     // .then((res)=>{setCount(prev=>prev+1); console.log(AllProductData)});
+  
+
+// },[dispatch,category,gender,location.search])
 
 
 
@@ -200,6 +184,7 @@ useEffect(()=>{
         fontWeight="bold"
       >
         {/* {data.title}{" "} */}
+        {`${gender} Clothing`}
         <Box as="span" fontWeight="normal" color="#949494">
           {/* ({data.total_product_count}) */}
         </Box>
@@ -284,86 +269,6 @@ useEffect(()=>{
                   laboris nisi ut aliquip ex ea commodo consequat.
                 </AccordionPanel>
               </AccordionItem>
-              {/* <AccordionItem w="94%">
-                <h2>
-                  <AccordionButton p="8px 0px 8px 0px">
-                    <Box as="span" fontSize="14px" flex="1" textAlign="left">
-                      Fit
-                    </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel pb={4}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </AccordionPanel>
-              </AccordionItem>
-              <AccordionItem w="94%">
-                <h2>
-                  <AccordionButton p="8px 0px 8px 0px">
-                    <Box as="span" fontSize="14px" flex="1" textAlign="left">
-                      Sleeve
-                    </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel pb={4}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </AccordionPanel>
-              </AccordionItem>
-              <AccordionItem w="94%">
-                <h2>
-                  <AccordionButton p="8px 0px 8px 0px">
-                    <Box as="span" fontSize="14px" flex="1" textAlign="left">
-                      Discount
-                    </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel pb={4}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </AccordionPanel>
-              </AccordionItem>
-              <AccordionItem w="94%">
-                <h2>
-                  <AccordionButton p="8px 0px 8px 0px">
-                    <Box as="span" fontSize="14px" flex="1" textAlign="left">
-                      Sort By
-                    </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel pb={4}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </AccordionPanel>
-              </AccordionItem>
-              <AccordionItem w="94%">
-                <h2>
-                  <AccordionButton p="8px 0px 8px 0px">
-                    <Box as="span" fontSize="14px" flex="1" textAlign="left">
-                      Sizes
-                    </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel pb={4}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </AccordionPanel>
-              </AccordionItem> */}
             </Accordion>
 
            

@@ -19,8 +19,8 @@ import { IaddressData, Icart_wishlistData } from "./reducer";
 interface Iparams{
   limit ?:number,
   category ?:string[] | string,
-  gender:string ,
-  sort:string,
+  gender:string | null ,
+  sort:any ,
   page:number
 }
 interface IsearchParamsProps{

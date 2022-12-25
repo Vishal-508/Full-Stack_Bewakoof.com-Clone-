@@ -49,6 +49,22 @@ const Cartcard = (props: Icart_wishlistData) => {
     userId,
   } = props;
 
+  // const [totalMRP,setTotalMRP]=useState(0);
+  // const [subtotalprice,setSubtotalprice]=useState(0);
+  // const amounthandle=()=>{
+  //   var n=cartData.length;
+  //   let MRP=0;
+  //   let price=0;
+  //   for(var i=0;i<n;i++){
+  //     MRP+=Number(cartData[i].mrp);
+  //     price+=Number(cartData[i].price);
+  //   }
+  //   setTotalMRP(MRP);
+  //   setSubtotalprice(price);
+    
+  // }
+
+
   const handleDelete = () => {
     const payload = {
       _id: _id,
