@@ -7,3 +7,18 @@ const OrderPage = () => {
 }
 
 export default OrderPage
+
+
+// function defaultCategory(){
+//   if(category.length===0){
+//     var checklocalcat=localStorage.getItem("category");
+//     if(checklocalcat){
+//     category.push(checklocalcat);
+//   }
+//   }
+  
+  
+//   useEffect(()=>{
+  
+//     defaultCategory()
+//   },[])

@@ -51,7 +51,7 @@ const ProductsPage = () => {
   const location=useLocation();
 
   const [sort, setSort] = useState(initialsort || "");
-// const diffcat=localStorage.getItem("category");
+
   const [category, setCategory] = useState<string[]>(initialCategoryFilters || []);
 
 //  const [gender,setGender]=useState<string | null>(initialGenderFilters[0] || "");
@@ -61,8 +61,6 @@ const gender=localStorage.getItem("gender")
 
 
 const handleFilterCheckbox=(e:React.ChangeEvent<HTMLInputElement>)=>{
- 
- 
 
   const newCategories: string[] =[...category];
 
@@ -75,12 +73,48 @@ const handleFilterCheckbox=(e:React.ChangeEvent<HTMLInputElement>)=>{
   setCategory(newCategories)
 }
 
+function initCat():void{
+  if(category.length===0){
+    let checklocalcat:string[]=[];
+    let lcheck:string|null =localStorage.getItem("category");
+    if(lcheck){
+      checklocalcat.push(lcheck)
+      setCategory(checklocalcat)
+    }
+  }
+}
+initCat();
+// function initCat(){
+//   if(category.length===0){
+//     var checklocalcat:string[]=[];
+//     var lcheck:string | null=localStorage.getItem("category");
+//     checklocalcat.push(lcheck)
+//     if(checklocalcat){
 
-// const newCategories:string[]=[];
-// let localCategory=localStorage.getItem("category")
-// if(localCategory){
-//   newCategories.push(localCategory);
-// }
+//     setCategory(checklocalcat)
+//   }
+//   }
+
+  // useEffect(()=>{
+  
+  //   initCat()
+  // },[])
+
+
+
+
+// useEffect(() => {
+   
+//     if (gender) {
+//       let params: any= {};
+//       gender && (params.gender = [localStorage.getItem("gender")]);
+//       setSearchParams(params);
+
+//     }
+//     console.log("82 line no. use effect is runed")
+//   }, [setSearchParams]);
+
+
 
 useEffect(() => {
    
